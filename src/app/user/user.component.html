@@ -1,0 +1,31 @@
+<div class="card my-5">
+ <p>All Users</p>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Full Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phones</th>
+          <th scope="col">Active</th>
+          <th scope="col">City</th>
+          <th scope="col">Address</th>
+          <th scope="col">Postal Code</th>
+          <th scope="col">Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr scope="row" *ngFor="let beneficiary of beneficiary">
+          <td>{{ beneficiary.name }}</td>
+          <td>{{ beneficiary.email }}</td>
+          <td>{{ beneficiary.phones }}</td>
+          <td>{{ beneficiary.state }}</td>
+          <td>{{ beneficiary.address.district  }}</td>
+          <td>{{ beneficiary.address.streetName + beneficiary.address.streetNumber  }}</td>
+          <td>{{  beneficiary.address.postalCode  }}</td>
+          <td>{{  beneficiary.address.country.name  }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

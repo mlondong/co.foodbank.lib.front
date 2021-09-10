@@ -1,0 +1,18 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
+//import { MatDialog } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+
+
+@Component({
+  selector: 'app-error',
+  templateUrl: './error.component.html',
+  styleUrls: ['./error.component.css']
+})
+
+export class ErrorComponent {
+  info : any[];
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+     this.info=data;
+  }
+}

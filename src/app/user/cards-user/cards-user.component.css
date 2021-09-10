@@ -1,0 +1,19 @@
+p {
+    font-family: Lato;
+    }
+    .example-card {
+    max-width: 650px;
+    margin: 15px
+    }
+    
+    mat-card-subtitle{
+    font-size:15px;
+    padding-top: 10px;
+
+    }
+    
+    mat-card-title{
+    color:rgb(0, 0, 0);
+    font-size:20px;
+    }
+
