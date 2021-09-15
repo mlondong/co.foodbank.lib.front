@@ -1,28 +1,46 @@
-<h1 class="mat-h1"> Operation User</h1>
-<mat-card class="example-card">
-  <mat-card-title>Search</mat-card-title>
-  <mat-card-subtitle>All Search</mat-card-subtitle>
-  <mat-card-actions>
-    <button mat-button (click)="getAllUsers()"> List All </button>
-    <button mat-button data-toggle="modal" data-target="#exampleModalCenter" (click)="changeLabelName(1)">Search By
-      Id</button>
-    <button mat-button data-toggle="modal" data-target="#exampleModalCenter" (click)="changeLabelName(2)">Search By
-      Dni</button>
-    <button mat-button data-toggle="modal" data-target="#exampleModalCenter" (click)="changeLabelName(3)">Search By
-      Cuit</button>
-    <button mat-button data-toggle="modal" data-target="#exampleModalCenter" (click)="changeLabelName(4)">Search By
-      Email</button>
-  </mat-card-actions>
-</mat-card>
-<br>
-<mat-card class="example-card">
-  <mat-card-title>Type Users </mat-card-title>
-  <mat-card-subtitle>All users</mat-card-subtitle>
-  <mat-card-actions>
-    <button mat-button>Search Beneficiary</button>
-    <button mat-button>Search Volunteer</button>
-  </mat-card-actions>
-</mat-card>
+
+<table>
+  <tr>
+    <td > <h2 class="mat-h1" style="text-align: left;">Operation User</h2></td>
+  </tr>
+  <tr>
+    <td>
+    <mat-card class="example-card" style="background-color: #E2E2E3; width: 1000rem">
+      <mat-card-title>Search</mat-card-title>
+      <mat-card-subtitle>Choose an option an find users.</mat-card-subtitle>
+      <mat-card-actions>
+        <button mat-button (click)="getAllUsers()"> List All </button>
+        <button mat-button data-toggle="modal" data-target="#exampleModalCenter" (click)="changeLabelName(1)">Search
+          By
+          Id</button>
+        <button mat-button data-toggle="modal" data-target="#exampleModalCenter" (click)="changeLabelName(2)">Search
+          By
+          Dni</button>
+        <button mat-button data-toggle="modal" data-target="#exampleModalCenter" (click)="changeLabelName(3)">Search
+          By
+          Cuit</button>
+        <button mat-button data-toggle="modal" data-target="#exampleModalCenter" (click)="changeLabelName(4)">Search
+          By
+          Email</button>
+      </mat-card-actions>
+    </mat-card>
+  </td>
+  <td>
+    <mat-card class="example-card" style="background-color: #f0dbd8; width: 1000rem">
+      <mat-card-title>Add Users </mat-card-title>
+      <mat-card-subtitle>Add all type of users</mat-card-subtitle>
+      <mat-card-actions>
+        <button mat-button data-toggle="modal" data-target="#modalAddProvider" (click)="setForm(1)">Add
+          Beneficiary</button>
+        <button mat-button data-toggle="modal" data-target="#modalAddVolunteer" (click)="setForm(3)">Add
+          Volunteer</button>
+        <button mat-button data-toggle="modal" data-target="#modalAddProvider" (click)="setForm(2)">Add
+          Provider</button>
+      </mat-card-actions>
+    </mat-card>
+  </td>
+  </tr>
+</table>
 
 
 
@@ -31,7 +49,7 @@
   data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #3f51b5; color: #fff">
         <h2 class="modal-title" id="exampleModalLongTitle">Search User</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -55,19 +73,150 @@
 
 
 
-<!-- Modal edit user -->
-<div class="modal dialog" id="exampleModalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+
+
+<!-- Modal add user Volunteer -->
+<div class="modal dialog" id="modalAddVolunteer" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
   data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #3f51b5; color: #fff">
-        <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Edit User</h1>
+        <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Add {{typeForm}}</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form #onAddVolunteerForm="ngForm" (ngSubmit)="addObjVolunteer(onAddVolunteerForm.value)">
+          <div class="container">
+
+            <div class="row">
+              <div class="col">
+                <div style="background-color:#3fb577; color: #fff; text-align: center;">
+                  <h2>Personal Info</h2>
+                </div>
+                <div class="form-group">
+                  <label for="name">Name:</label>
+                  <input type="text" ngModel name="name" class="form-control" id="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="text" ngModel name="email" class="form-control" id="email" required>
+                </div>
+                <div class="form-group">
+                  <label for="password">Password:</label>
+                  <input type="text" ngModel name="password" class="form-control" id="password" required>
+                </div>
+                <div class="form-group">
+                  <label for="phones">Phones:</label>
+                  <input type="text" ngModel name="phones" class="form-control" id="phones" required>
+                </div>
+                <div class="form-group">
+                  <label for="dni">Dni:</label>
+                  <input type="text" ngModel name="dni" class="form-control" id="dni" required>
+                </div>
+              </div>
+
+              <div class="col">
+                <div style="background-color:#3fb577; color: #fff; text-align: center;">
+                  <h2>Address</h2>
+                </div>
+                <div class="form-group">
+                  <label for="streetName">Street name:</label>
+                  <input type="text" ngModel name="streetName" class="form-control" id="streetName" required>
+                </div>
+                <div class="form-group">
+                  <label for="streetNumber">Street number:</label>
+                  <input type="text" ngModel name="streetNumber" class="form-control" id="streetNumber" required>
+                </div>
+                <div class="form-group">
+                  <label for="postalCode">Postal code:</label>
+                  <input type="text" ngModel name="postalCode" class="form-control" id="postalCode" required>
+                </div>
+                <div class="form-group">
+                  <label for="district">District:</label>
+                  <input type="text" ngModel name="district" class="form-control" id="district" required>
+                </div>
+                <div class="form-group">
+                  <label for="country">Country:</label>
+                  <input type="text" ngModel name="country" class="form-control" id="country" required>
+                </div>
+              </div>
+
+              <div class="col">
+                <div style="background-color:#3fb577; color: #fff ; text-align: center;">
+                  <h2>Vehicule</h2>
+                </div>
+                <div class="form-group">
+                  <label for="type">Type:</label>
+                  <input type="text" ngModel name="type" class="form-control" id="type" required>
+                </div>
+                <div class="form-group">
+                  <label for="brand">Brand:</label>
+                  <input type="text" ngModel name="brand" class="form-control" id="brand" required>
+                </div>
+                <div class="form-group">
+                  <label for="carPLate">Car PLate:</label>
+                  <input type="text" ngModel name="carPLate" class="form-control" id="carPLate" required>
+                </div>
+                <div class="form-group">
+                  <label for="capacity">Capacity:</label>
+                  <input type="text" ngModel name="capacity" class="form-control" id="capacity" required>
+                </div>
+              </div>
+
+              <div class="col">
+                <div style="background-color:#3fb577; color: #fff ; text-align: center;">
+                  <h2>Volume Vehicule</h2>
+                </div>
+                <div class="form-group">
+                  <label for="high">High:</label>
+                  <input type="text" ngModel name="high" class="form-control" id="high" required>
+                </div>
+                <div class="form-group">
+                  <label for="wide">Wide:</label>
+                  <input type="text" ngModel name="wide" class="form-control" id="wide" required>
+                </div>
+                <div class="form-group">
+                  <label for="longitud">Longitud:</label>
+                  <input type="text" ngModel name="longitud" class="form-control" id="longitud" required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="modal-footer">
+            <button type="button" id="add-employee-provider" class="btn btn-secondary"
+              data-dismiss="modal">Close</button>
+            <button type="submit" [disabled]="onAddVolunteerForm.invalid" class="btn btn-success">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Modal add user provider -->
+<div class="modal dialog" id="modalAddProvider" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+  data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #3f51b5; color: #fff">
+        <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Add {{typeForm}}</h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form #updateForm="ngForm" (ngSubmit)="toUpdateUser(updateForm.value)">
+        <form #onAddProviderForm="ngForm" (ngSubmit)="addObjUser(onAddProviderForm.value)">
           <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" ngModel name="name" class="form-control" id="name" required>
@@ -81,17 +230,46 @@
             <input type="text" ngModel name="password" class="form-control" id="password" required>
           </div>
 
-          <div class="form-group">
-            <label for="state">State:</label>
-            <input type="text" ngModel name="state" class="form-control" id="state" required>
-          </div>
+
 
           <div class="form-group">
             <label for="phones">Phones:</label>
             <input type="text" ngModel name="phones" class="form-control" id="phones" required>
           </div>
 
-           <p></p>
+
+          <!-- Information for provider-->
+          <div class="form-group" *ngIf="typeForm==='Provider'">
+            <label for="cuil">Cuil:</label>
+            <input type="text" ngModel name="cuil" class="form-control" id="cuil" required>
+          </div>
+
+          <div class="form-group" *ngIf="typeForm==='Provider'">
+            <label for="lgRepresentation">Legal Representation:</label>
+            <input type="text" ngModel name="lgRepresentation" class="form-control" id="lgRepresentation" required>
+          </div>
+          <!-- Information for provider-->
+
+
+          <!-- Information for Beneficiary-->
+          <div class="form-group" *ngIf="typeForm==='Beneficiary'">
+            <label for="socialReason">Social Reason:</label>
+            <input type="text" ngModel name="socialReason" class="form-control" id="socialReason" required>
+          </div>
+          <div class="form-group" *ngIf="typeForm==='Beneficiary'">
+            <label for="category">Category:</label>
+            <input type="text" ngModel name="category" class="form-control" id="category" required>
+          </div>
+          <div class="form-group" *ngIf="typeForm==='Beneficiary'">
+            <label for="size">Capacity of members:</label>
+            <input type="text" ngModel name="size" class="form-control" id="size" required>
+          </div>
+          <!-- Information for Beneficiary-->
+
+
+
+
+          <p></p>
 
           <div style="background-color:#3fb577; color: #fff">
             <h2>Address</h2>
@@ -122,8 +300,10 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" id="update-employee-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success">Save</button>
+            <!--  [disabled]="onAddProviderForm.invalid"-->
+            <button type="button" id="add-employee-provider" class="btn btn-secondary"
+              data-dismiss="modal">Close</button>
+            <button type="submit" [disabled]="onAddProviderForm.invalid" class="btn btn-success">Save</button>
           </div>
         </form>
       </div>
@@ -134,10 +314,12 @@
 
 
 <!-- List All users-->
-<div class="card my-5">
+<!-- <div class="card my-5">-->
+<div class="table-responsive-md" style="overflow-y: auto; height:460px; width: 1600px;">
   <div class="card-body">
-    <table class="table table-striped">
-      <thead>
+
+    <table class="table table-dark table-sm table-hover">
+      <thead style="position: sticky; top: 0; z-index: 10;">
         <tr>
           <th scope="col">Type</th>
           <th scope="col">Full Name</th>
@@ -148,7 +330,6 @@
           <th scope="col">Address</th>
           <th scope="col">Postal Code</th>
           <th scope="col">Country</th>
-          <th scope="col"></th>
           <th scope="col"></th>
 
         </tr>
@@ -166,20 +347,18 @@
           <td *ngIf="user.address ">{{ user.address.streetName + user.address.streetNumber }}</td>
           <td *ngIf="user.address ">{{ user.address.postalCode }}</td>
           <td *ngIf="user.address ">{{ user.address.country.name }}</td>
-          <td> 
-              <button *ngIf="user.cuil != null &&  user.legalRepresentation != null" mat-button data-toggle="modal" data-target="#exampleModalUpdate" type="button"
-              class="btn btn-primary" [routerLink]="['/editprovider', user.id]">Edit</button>
+          <td>
+            <button *ngIf="user.cuil != null &&  user.legalRepresentation != null" mat-button data-toggle="modal"
+              data-target="#exampleModalUpdate" type="button" class="btn btn-primary"
+              [routerLink]="['/editprovider', user.id]">Edit</button>
 
-              <button *ngIf="user.dni != null " mat-button data-toggle="modal" data-target="#exampleModalUpdate" type="button"
-              class="btn btn-primary" [routerLink]="['/editvolunteer', user.id]">Edit</button>
+            <button *ngIf="user.dni != null " mat-button data-toggle="modal" data-target="#exampleModalUpdate"
+              type="button" class="btn btn-primary" [routerLink]="['/editvolunteer', user.id]">Edit</button>
 
-              <button *ngIf="user.socialReason != null && user.category" mat-button data-toggle="modal" data-target="#exampleModalUpdate" type="button"
-              class="btn btn-primary" [routerLink]="['/editbeneficiary', user.id]">Edit</button>
+            <button *ngIf="user.socialReason != null && user.category" mat-button data-toggle="modal"
+              data-target="#exampleModalUpdate" type="button" class="btn btn-primary"
+              [routerLink]="['/editbeneficiary', user.id]">Edit</button>
 
-
-          </td>
-          <td> <button mat-button data-toggle="modal" data-target="#exampleModalDetail" type="button"
-              class="btn btn-success">Details</button>
           </td>
         </tr>
 
