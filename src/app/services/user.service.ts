@@ -58,7 +58,7 @@ export class UserService {
 
   /*All operations PUT*/
   public updateBeneficiary(beneficiary: Beneficiary, id: String): Observable<Beneficiary> {
-    return this.http.put<Beneficiary>(operationUser.updateBeneficiary+`${id}`, beneficiary);
+      return this.http.put<Beneficiary>(operationUser.updateBeneficiary+`${id}`, beneficiary);
   }
 
   public updateVolunteer(volunteer: Volunteer, id: String): Observable<Volunteer> {
