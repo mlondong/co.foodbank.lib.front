@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
-import { UserComponent } from './user/user.component';
 
 import { UserService } from './services/user.service';
 import { ErrorService } from './services/error.service';
@@ -30,17 +29,24 @@ import { FormsModule }   from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppHttpConfigInterceptor} from './app-httpconfig.interceptor';
 import { ErrorComponent } from './error/error.component';
+import { CardEditProviderComponent } from './user/card-edit-provider/card-edit-provider.component';
+import { EventComponent } from './event/event.component';
+import { CardEditVolunteerComponent } from './user/card-edit-volunteer/card-edit-volunteer.component';
+import { CardEditBeneficiaryComponent } from './user/card-edit-beneficiary/card-edit-beneficiary.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    UserComponent,
     NavigationComponent,
     DashboardComponent,
     CardsUserComponent,
-    ErrorComponent
+    ErrorComponent,
+    CardEditProviderComponent,
+    EventComponent,
+    CardEditVolunteerComponent,
+    CardEditBeneficiaryComponent
   ],
   imports: [
     BrowserModule,

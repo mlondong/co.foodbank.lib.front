@@ -1,3 +1,8 @@
 export class Country {
-    name: string;
+    
+    public name: string;
+
+    public constructor(name: string){
+        this.name=name;
+    }
 }

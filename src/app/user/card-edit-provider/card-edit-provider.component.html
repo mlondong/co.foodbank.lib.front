@@ -1,0 +1,73 @@
+<!-- Edit user -->
+<div class="modal-content">
+    <div class="modal-body">
+        <div style="background-color:#3fb577; color: #fff">
+            <h2>Edit Provider </h2>
+        </div>
+        <form #updateForm="ngForm" (ngSubmit)="toUpdateUser(updateForm.value)">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text"  [(ngModel)]="providerResponse.name" name="name" class="form-control" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" [(ngModel)]="providerResponse.email" name="email" class="form-control" id="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cuil">Cuil:</label>
+                <input type="text" [(ngModel)]="providerResponse.cuil" name="cuil" class="form-control" id="cuil" required>
+            </div>
+            <div class="form-group">
+                <label for="lgRepresentant">Legal Representant:</label>
+                <input type="text" [(ngModel)]="providerResponse.legalRepresentation" name="lgRepresentant" class="form-control" id="lgRepresentant" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="text" [(ngModel)]="providerResponse.password" name="password" class="form-control" id="password" required>
+            </div>
+
+         
+            <div class="form-group">
+                <label for="phones">Phones:</label>
+                <input type="text" [(ngModel)]="providerResponse.phones" name="phones" class="form-control" id="phones" required>
+            </div>
+
+            <p></p>
+
+            <div style="background-color:#3fb577; color: #fff">
+                <h2>Address</h2>
+            </div>
+           <div class="form-group">
+                <label for="streetName">Street name:</label>
+                <input type="text" [(ngModel)]="providerResponse.address.streetName" name="streetName" class="form-control" id="streetName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="streetNumber">Street number:</label>
+                <input type="text" [(ngModel)]="providerResponse.address.streetNumber" name="streetNumber" class="form-control" id="streetNumber" required>
+            </div>
+
+            <div class="form-group">
+                <label for="postalCode">Postal code:</label>
+                <input type="text" [(ngModel)]="providerResponse.address.postalCode" name="postalCode" class="form-control" id="postalCode" required>
+            </div>
+
+            <div class="form-group">
+                <label for="district">District:</label>
+                <input type="text" [(ngModel)]="providerResponse.address.district" name="district" class="form-control" id="district" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" [(ngModel)]="providerResponse.address.country.name" name="country" class="form-control" id="country" required>
+            </div>
+       
+            <div class="modal-footer">
+                <button type="submit"  class="btn btn-primary btn-lg btn-block">Save</button>
+            </div>
+            <p></p>
+        </form>
+    </div>
+</div>

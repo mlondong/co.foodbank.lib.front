@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorComponent } from '../error/error.component';
+import {EventComponent} from '../event/event.component';
 
 
 
@@ -31,6 +32,30 @@ export class ErrorService {
             srt = result;
         });
     }
+
+
+
+    openEvent(data): any {
+
+        if (this.isDialogOpen) {
+            return false;
+        }
+        
+        this.isDialogOpen = true;
+        
+        const dialogRef = this.dialog.open(EventComponent, {
+            width: '600px',
+            data : data
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.isDialogOpen = false;
+            let srt;
+            srt = result;
+        });
+    }
+
+
 
 
 

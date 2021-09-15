@@ -44,8 +44,7 @@ export class AppHttpConfigInterceptor implements HttpInterceptor {
                 map((event: HttpEvent<any>) => {
                     if (event instanceof HttpResponse) {
                         console.log('event--->>>', event);
-                        // this.errorDialogService.openDialog(event);
-                        //this.errorService.showErrorEvent(event);
+                       // this.errorService.openEvent(event);
                     }
                     return event;
                 }),
@@ -55,7 +54,6 @@ export class AppHttpConfigInterceptor implements HttpInterceptor {
                         reason: error && error.error && error.error.reason ? error.error.reason : '',
                         status: error.status
                     };
-                    //this.errorDialogService.openDialog(data);
                     this.errorService.openDialog(error.error);
                     console.log('error--->>>', error);
                     return throwError(error.error);

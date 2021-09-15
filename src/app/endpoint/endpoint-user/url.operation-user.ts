@@ -5,7 +5,7 @@ export const operationUser = {
     /*PUT OPERATIONS IN USER*/
     updateVolunteer: endpointUser.apiUrlUser + '/user/updateVolunter/', 
     updateProvider : endpointUser.apiUrlUser +'/user/updateProvider/',
-    updateBeneficiary : endpointUser.apiUrlUser + '​/user​/updateBeneficiary​/',
+    updateBeneficiary : endpointUser.apiUrlUser + '​/user/updateBeneficiary/',
 
     /*POST OPERATIONS IN USER*/
     createVolunteer : endpointUser.apiUrlUser + '/user/createVolunter',

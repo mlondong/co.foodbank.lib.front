@@ -1,0 +1,89 @@
+<!-- Edit user -->
+<div class="modal-content">
+    <div class="modal-body">
+        <div style="background-color:#3fb577; color: #fff">
+            <h2>Edit Beneficiary</h2>
+        </div>
+        <form #updateForm="ngForm" (ngSubmit)="toUpdateUser(updateForm.value)">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" *ngIf="beneficiaryResponse.name != null " [(ngModel)]="beneficiaryResponse.name"
+                    name="name" class="form-control" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.email" name="email" class="form-control" id="email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.password" name="password" class="form-control"
+                    id="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phones">Phones:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.phones" name="phones" class="form-control" id="phones"  required>
+            </div>
+
+            <div class="form-group">
+                <label for="socialReason">Social Reason:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.socialReason" name="socialReason" class="form-control" id="socialReason"  required>
+            </div>
+
+
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.category" name="category" class="form-control" id="category"    required>
+            </div>
+
+            <div class="form-group">
+                <label for="size">Size:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.size" name="size" class="form-control" id="size"    required>
+            </div>
+
+            <p></p>
+
+            <div style="background-color:#3fb577; color: #fff">
+                <h2>Address</h2>
+            </div>
+            <div class="form-group">
+                <label for="streetName">Street name:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.address.streetName" name="streetName"
+                    class="form-control" id="streetName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="streetNumber">Street number:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.address.streetNumber" name="streetNumber"
+                    class="form-control" id="streetNumber" required>
+            </div>
+
+            <div class="form-group">
+                <label for="postalCode">Postal code:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.address.postalCode" name="postalCode"
+                    class="form-control" id="postalCode" required>
+            </div>
+
+            <div class="form-group">
+                <label for="district">District:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.address.district" name="district" class="form-control"
+                    id="district" required>
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" [(ngModel)]="beneficiaryResponse.address.country.name" name="country"
+                    class="form-control" id="country" required>
+            </div>
+
+            <p></p>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+            </div>
+            <p></p>
+        </form>
+    </div>
+</div>
