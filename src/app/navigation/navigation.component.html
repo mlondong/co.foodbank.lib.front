@@ -1,8 +1,9 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #drawer class="sidenav" 
+  fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false" >
     <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
+    <mat-nav-list >
 
       <nav>
         <a mat-list-item href="/dashboard">DashBoard</a>
@@ -27,7 +28,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>FoodBank</span>
+      <span><h1 style="font-size: x-large;">FB FOODBANK</h1></span>
     </mat-toolbar>
    
     <!-- Add Content Here  este es ara manejar el routing del app-routing.module.ts-->

@@ -51,7 +51,7 @@ export class UserService {
   public addVolunteer(volunteer: Volunteer): Observable<Volunteer> {
     return this.http.post<Volunteer>(operationUser.createVolunteer , volunteer);
   }
-  public addVProvider(provider: Providerr): Observable<Providerr> {
+  public addProvider(provider: Providerr): Observable<Providerr> {
     return this.http.post<Providerr>(operationUser.createProvider , provider);
   }
 

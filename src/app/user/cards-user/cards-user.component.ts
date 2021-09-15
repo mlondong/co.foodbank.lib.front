@@ -8,6 +8,12 @@ import { Beneficiary } from 'src/app/model/user/beneficiary';
 import { Volunteer } from 'src/app/model/user/volunteer';
 import { Providerr } from 'src/app/model/user/provider';
 
+import { Address } from 'src/app/model/address/address';
+import { Country } from 'src/app/model/country/country';
+
+import { Vehicule } from 'src/app/model/vehicule/vehicule';
+import { Volume } from 'src/app/model/volume/volume';
+
 @Component({
   selector: 'app-cards-user',
   templateUrl: './cards-user.component.html',
@@ -17,33 +23,27 @@ export class CardsUserComponent implements OnInit {
 
   label_to_find: any = '';
   user: any[];
+
   option: any;
-  myvalue: String = "mauricio";
+  typeForm: any;
 
   userObject: Array<User> = [];
+
+
   beneficiary: Beneficiary;
   volunteer: Volunteer;
   provider: Providerr;
-  toUpdate: any;
+
 
   constructor(private userService: UserService) { }
 
+  /*Method init to put all users in a list */
   ngOnInit(): void {
     this.getAllUsers();
-    this.toUpdate;
   }
 
-  public changeLabelName(label: any) {
-    this.option = label;
 
-    switch (label) {
-      case 1: this.label_to_find = ' ID'; break;
-      case 2: this.label_to_find = ' DNI'; break;
-      case 3: this.label_to_find = ' CUIT'; break;
-      case 4: this.label_to_find = ' @Email'; break;
-    }
-  }
-
+  //! ********************************************************************************************************************************************
   //! MAIN FUNCTIONS TO HANDLE OPERATIONS IN USER
   //! @author Mauricio Londono 
 
@@ -61,22 +61,126 @@ export class CardsUserComponent implements OnInit {
   }
 
 
-  /*Method to update user with endpoint*/
-  public toUpdateUser(updateForm: NgForm): void {
-    document.getElementById("update-employee-form")?.click();
-    //let data: any = updateForm.controls.usid.value;
-    console.log( updateForm);
-    console.log( updateForm.controls['name'].value);
-    //console.log("valueeee ..." + updateForm.controls.name.value);
-     //console.log(this.toUpdate);
+
+  /*Method to add volunteer  with endpoint*/
+  public addObjVolunteer(addForm: NgForm): void {
+    const country = this.buildCountry(addForm);
+    const address = this.buildAddress(addForm, country);
+    const volume = this.buildVolume(addForm);
+    const vehicle = this.buildVehicule(addForm, volume);
+    const volunteer = this.builVolunteer(addForm, vehicle, address);
+ 
+    this.userService.addVolunteer(volunteer).subscribe(
+      (response: Volunteer) => {
+        this.volunteer = response;
+      }, (error: HttpErrorResponse) => {
+        console.log(error.message); //aca debe ser un evento del interceptor
+      });
+    //document.getElementById("add-employee-provider")?.click();
+    //addForm.reset();
   }
-  //! @author Mauricio Londono 
-  
+
+
+
+  /*Method to add provider  with endpoint*/
+  public addObjUser(addForm: NgForm): void {
+
+    if (this.typeForm === "Beneficiary") {
+      this.handleBeneficiary(addForm);
+    } else if (this.typeForm === "Provider") {
+      this.handleProvider(addForm);
+    }
+  }
 
 
 
 
+  /*Method to handle Providder form*/
+  private handleProvider(addForm: NgForm): void {
+    const country = this.buildCountry(addForm);
+    const address = this.buildAddress(addForm, country);
+    const provider = this.buildProvider(addForm, address);
+    this.userService.addProvider(provider).subscribe(
+      (response: Providerr) => {
+        this.provider = response;
+      }, (error: HttpErrorResponse) => {
+        console.log(error.message); //aca debe ser un evento del interceptor
+      });
+    //document.getElementById("add-employee-provider")?.click();
+    addForm.reset();
+  }
 
+
+  /*Method to handle Beneficiary form*/
+  private handleBeneficiary(addForm: NgForm): void {
+    const country = this.buildCountry(addForm);
+    const address = this.buildAddress(addForm, country);
+    const beneficiary = this.buildBeneficiary(addForm, address);
+    this.userService.addBeneficiary(beneficiary).subscribe(
+      (response: Beneficiary) => {
+        this.beneficiary = response;
+      }, (error: HttpErrorResponse) => {
+        console.log(error.message); //aca debe ser un evento del interceptor
+      });
+    //document.getElementById("add-employee-provider")?.click();
+    addForm.reset();
+  }
+
+  private buildVehicule(volunter: any, volume: Volume):Vehicule{
+    return new Vehicule(volunter.type, volunter.brand, volunter.carPLate, volunter.capacity, volume );
+  }
+
+  private builVolunteer(volunter: any , vehicule: Vehicule, address:Address): Volunteer{
+    return new Volunteer(volunter.name, volunter.email, volunter.password, volunter.phones, volunter.dni , vehicule, address);
+  }
+
+  private buildVolume(volunter: any): Volume{
+    return new Volume(volunter.high, volunter.wide, volunter.longitud);
+  }
+
+  private buildBeneficiary(beneficiary: any, address: Address): Beneficiary {
+    return new Beneficiary(beneficiary.name, beneficiary.email, beneficiary.password, beneficiary.phones,
+      beneficiary.socialReason, beneficiary.category, beneficiary.size, address);
+  }
+
+
+  private buildProvider(provider: any, address: Address): Providerr {
+    return new Providerr(provider.name, provider.email, provider.password, provider.phones, provider.cuil, provider.lgRepresentation, address);
+  }
+
+  private buildAddress(provider: any, country: Country): Address {
+    return new Address(provider.streetName, provider.streetNumber, provider.postalCode, provider.district, country);
+  }
+
+  private buildCountry(provider: any): Country {
+    return new Country(provider.country);
+  }
+
+  /*Method to change form type */
+  public setForm(value: any) {
+    switch (value) {
+      case 1: this.typeForm = "Beneficiary"; break;
+      case 2: this.typeForm = "Provider"; break;
+      case 3: this.typeForm = "Volunteer"; break;
+
+    }
+  }
+
+
+  /*Method used to handle all search from User*/
+  public changeLabelName(label: any) {
+    this.option = label;
+
+    switch (label) {
+      case 1: this.label_to_find = ' ID'; break;
+      case 2: this.label_to_find = ' DNI'; break;
+      case 3: this.label_to_find = ' CUIT'; break;
+      case 4: this.label_to_find = ' @Email'; break;
+    }
+  }
+
+
+  /*Method to list all users*/
   public getAllUsers(): void {
     this.userService.findAll().subscribe(
       (response: any[]) => {
@@ -87,6 +191,7 @@ export class CardsUserComponent implements OnInit {
     );
   }
 
+  /*Method to find user by DNI*/
   public getUserById(userId: String): void {
 
     this.userService.findUserById(userId).subscribe(
@@ -102,6 +207,7 @@ export class CardsUserComponent implements OnInit {
     );
   }
 
+  /*Method to find user by dni*/
   public getUserByDni(dni: number): void {
     this.userService.findUserByDni(dni).subscribe(
       (response: any[]) => {
@@ -114,6 +220,7 @@ export class CardsUserComponent implements OnInit {
     );
   }
 
+  /*Method to find user by cuit*/
   public getUserByCuit(cuit: number): void {
     this.userService.findUserByCuit(cuit).subscribe(
       (response: any[]) => {
@@ -126,7 +233,7 @@ export class CardsUserComponent implements OnInit {
     );
   }
 
-
+  /*Method to find user by email*/
   public getUserByEmail(email: String): void {
     this.userService.findUserByEmail(email).subscribe(
       (response: any[]) => {
@@ -137,6 +244,14 @@ export class CardsUserComponent implements OnInit {
       }
     );
   }
+
+  //! ******************************************************************************@author Mauricio Londono **************************************************/
+
+
+
+
+
+
 
   /*Method to find User in the Array User[], never get to datasource*/
   public showFormUser(id: String): void {
@@ -158,8 +273,7 @@ export class CardsUserComponent implements OnInit {
 
   /*Method to fillUp the form initial part.*/
   private fillUpTheForm(obj: any): void {
-    
-    this.toUpdate=obj;
+
 
     (<HTMLInputElement>document.getElementById("name")).value = obj.name;
     (<HTMLInputElement>document.getElementById("email")).value = obj.email;
@@ -172,7 +286,7 @@ export class CardsUserComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("postalCode")).value = obj.address.postalCode;
     (<HTMLInputElement>document.getElementById("district")).value = obj.address.district;
     (<HTMLInputElement>document.getElementById("country")).value = obj.address.country.name;
-    
+
   }
 
   /*Check if an object is empty*/
