@@ -44,7 +44,9 @@ export class AppHttpConfigInterceptor implements HttpInterceptor {
                 map((event: HttpEvent<any>) => {
                     if (event instanceof HttpResponse) {
                         console.log('event--->>>', event);
-                       // this.errorService.openEvent(event);
+                        if(event.body.length===0)
+                            this.errorService.openEvent(event);
+                        
                     }
                     return event;
                 }),
@@ -59,4 +61,9 @@ export class AppHttpConfigInterceptor implements HttpInterceptor {
                     return throwError(error.error);
                 }));
     }
+
+
+
+
+
 }
