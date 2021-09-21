@@ -154,7 +154,6 @@ export class CardVaultComponent implements OnInit {
       });
 
      if(this.responseVault != null){
-        //1. se cierra la ventana , se limpia el formulario 
         document.getElementById("add-vault-form")?.click();
         document.getElementById("onAddVaultForm")?.onreset;
         this.listAll();
