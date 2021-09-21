@@ -5,6 +5,7 @@ import { operationUser } from '../endpoint/endpoint-user/url.operation-user';
 import { Beneficiary } from '../model/user/beneficiary';
 import { Volunteer } from '../model/user/volunteer';
 import { Providerr } from '../model/user/provider';
+import { Vault } from '../model/vault/vault';
 
 
 @Injectable({
@@ -54,6 +55,10 @@ export class UserService {
   public addProvider(provider: Providerr): Observable<Providerr> {
     return this.http.post<Providerr>(operationUser.createProvider , provider);
   }
+  public createVault(vault: Vault, id: string): Observable<any> {
+    return this.http.post<any>(operationUser.createVaultProvider+`${id}` , vault);
+  }
+
 
 
   /*All operations PUT*/

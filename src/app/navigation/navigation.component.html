@@ -1,25 +1,19 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" 
-  fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false" >
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list >
+    <mat-nav-list>
 
-      <nav>
-        <a mat-list-item href="/dashboard">DashBoard</a>
-      </nav>
-      
-      <nav>
-        <a mat-list-item href="/user">Users</a>
-      </nav>
-      
-      <a mat-list-item href="#">Sucursals</a>
+      <nav> <a mat-list-item href="/dashboard">DashBoard</a> </nav>
+      <nav> <a mat-list-item href="/user">Users</a></nav>
+      <nav> <a mat-list-item href="/vault">Vault</a></nav>
+
       <a mat-list-item href="#">Contributions</a>
       <a mat-list-item href="#">Stocks</a>
       <a mat-list-item href="#">Products</a>
       <a mat-list-item href="#">Orders</a>
-      
-    
+
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -28,9 +22,11 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span><h1 style="font-size: x-large;">FB FOODBANK</h1></span>
+      <span>
+        <h1 style="font-size: x-large;">FB FOODBANK</h1>
+      </span>
     </mat-toolbar>
-   
+
     <!-- Add Content Here  este es ara manejar el routing del app-routing.module.ts-->
     <router-outlet></router-outlet>
 

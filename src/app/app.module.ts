@@ -33,6 +33,8 @@ import { CardEditProviderComponent } from './user/card-edit-provider/card-edit-p
 import { EventComponent } from './event/event.component';
 import { CardEditVolunteerComponent } from './user/card-edit-volunteer/card-edit-volunteer.component';
 import { CardEditBeneficiaryComponent } from './user/card-edit-beneficiary/card-edit-beneficiary.component';
+import { CardVaultComponent } from './vault/card-vault/card-vault.component';
+import { VaultService } from './services/vault.service';
 
 
 
@@ -47,7 +49,8 @@ import { CardEditBeneficiaryComponent } from './user/card-edit-beneficiary/card-
     CardEditProviderComponent,
     EventComponent,
     CardEditVolunteerComponent,
-    CardEditBeneficiaryComponent
+    CardEditBeneficiaryComponent,
+    CardVaultComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +72,7 @@ import { CardEditBeneficiaryComponent } from './user/card-edit-beneficiary/card-
   ],
   providers: [
               UserService,
+              VaultService,
               ErrorService,
               { provide: HTTP_INTERCEPTORS, useClass: AppHttpConfigInterceptor, multi: true }
             ],

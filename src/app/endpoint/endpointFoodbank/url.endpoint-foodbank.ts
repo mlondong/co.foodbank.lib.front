@@ -1,6 +1,4 @@
-/*Fileparameters of all Endpoints in foodBank*/
-
-export const endpointUser = {
+export const endpointFoodBank = {
     apiUrlUser: 'http://localhost:8082',
     apiUrlVault: 'http://localhost:8081',
     apiUrlContribution: 'http://localhost:8084',
