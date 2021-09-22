@@ -6,7 +6,9 @@ export const operationVault = {
     updateVault: endpointFoodBank.apiUrlVault + '/vault/updateVault/id/', 
     
     /*POST OPERATIONS IN VAULT*/
-    createVault : endpointFoodBank.apiUrlVault + '/vault/createVault',
+    createGeneralContribution : endpointFoodBank.apiUrlVault + '/vault/add-GeneralContribution/vault-id/',
+    createDetailContribution : endpointFoodBank.apiUrlVault + '​/vault​/add-DetailContribution​/vault-id​/',
+
     
     /*GET OPERATIONS IN VAULT*/
     findId : endpointFoodBank.apiUrlVault +'/vault/findById/id/',
