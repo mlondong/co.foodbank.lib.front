@@ -9,6 +9,12 @@ import { Providerr } from 'src/app/model/user/provider';
 import { NgForm } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { ContributionService } from '../../services/contribution.service';
+import { Address } from 'src/app/model/address/address';
+import { Country } from 'src/app/model/country/country';
+import { DetailContribution } from 'src/app/model/vault/detailContribution';
+import { GeneralContribution } from 'src/app/model/vault/generalContribution';
+import { Volume } from 'src/app/model/volume/volume';
+import { isDefined } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -38,7 +44,7 @@ export class CardDetailVaultComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("llamamndo...");
-    this.contributionResponse={};
+    this.contributionResponse = {};
     let today = new Date();
     this.currentDate = formatDate(today, 'yyyy-MM-dd', 'en-US');
 
@@ -78,7 +84,6 @@ export class CardDetailVaultComponent implements OnInit {
     switch (option) {
       case 1: this.setFormDetailContribution(); break;
       case 2: this.setFormGeneralContribution(); break;
-
     }
   }
 
@@ -86,7 +91,6 @@ export class CardDetailVaultComponent implements OnInit {
   public setFormGeneralContribution() {
     this.isShowForm = true;
     this.optionForm = "General Contribution";
-
   }
 
   public setFormDetailContribution() {
@@ -94,17 +98,102 @@ export class CardDetailVaultComponent implements OnInit {
     this.optionForm = "Detail Contribution";
   }
 
-
+  /*Method to update a vault*/
   public editObjVault(form: NgForm): void {
+    console.log(form);
+    const country = this.buildCountry(form);
+    const address = this.buildAddress(form, country);
+    const vault = this.buildVault(form, address);
 
+    this.vaultService.updateVault(this.vaultResponse.id, vault).subscribe(
+      (response: any) => {
+        this.vaultResponse = response;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+      }
+    );
   }
 
+  private buildVault(data: any, address: Address): Vault {
+    return new Vault(data.phones, data.contact, address);
+  }
+
+  private buildAddress(data: any, country: Country): Address {
+    return new Address(data.streetName, data.streetNumber, data.postalCode, data.district, country);
+  }
+
+  private buildCountry(data: any): Country {
+    return new Country(data.country);
+  }
+
+
+  /*Method to Add new Contributions*/
   public addDetContribution(form: NgForm): void {
 
+    //Check Detail contribution
+    if (this.isShowForm === false) {
+      const detailContrib = this.buildDetailContribution(form);
+
+      this.vaultService.addDetailContribution(this.vaultResponse.id, detailContrib).subscribe(
+        (response: any) => {
+          this.vaultResponse = response;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.status);
+        }
+      );
+    } else {
+
+      //Check General contribution
+      const volume = this.buildVolume(form);
+      const generalContrib = this.buildGeneralContribution(form, volume);
+
+      this.vaultService.addGeneralContribution(this.vaultResponse.id, generalContrib).subscribe(
+        (response: any) => {
+          this.vaultResponse = response;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.status);
+        }
+      );
+    }
   }
 
+
+  public buildVolume(data: any): Volume {
+    return new Volume(data.high, data.wide, data.longitud);
+  }
+
+  public buildGeneralContribution(data: any, volume: Volume): GeneralContribution {
+    return new GeneralContribution(data.description, data.date, volume);
+  }
+
+  public buildDetailContribution(data: any): DetailContribution {
+    return new DetailContribution(data.description, data.date, data.codeBar, data.numOfPackage);
+  }
+
+
+
+  /*Method to update  Contributions*/
   public editFormContribution(form: NgForm) {
-    /* this.contributionService.updateDetailContribution(id,  DetailContribution).subscribe(
+
+    if (isDefined(form.controls.numOfPackage.value)) {
+          const detailContrib = this.buildDetailContribution(form);
+
+          this.contributionService.updateDetailContribution(form.controls.id.value,detailContrib).subscribe(
+            (response: any) => {
+              this.vaultResponse = response;
+            },
+            (error: HttpErrorResponse) => {
+              console.log(error.status);
+            }
+          );
+    } else {
+
+    }
+
+    /*this.contributionService.updateDetailContribution(id,  DetailContribution).subscribe(
        (response: any) => {
          this.contributionResponse = response;
        },
@@ -112,6 +201,8 @@ export class CardDetailVaultComponent implements OnInit {
          console.log(error.status);
        }
      );*/
+
+
   }
 
 
@@ -119,21 +210,18 @@ export class CardDetailVaultComponent implements OnInit {
   }
 
   public showDataContribution(id: string) {
-    this.contributionResponse={};
-    
-      this.contributionService.findById(id).subscribe(
-        (response: any) => {
-          this.contributionResponse = response;
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error.status);
-        }
-      );
-   
+    this.contributionResponse = {};
+    this.contributionService.findById(id).subscribe(
+      (response: any) => {
+        this.contributionResponse = response;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+      }
+    );
   }
 
   public showFormDetailContribution() {
-
   }
 
 
