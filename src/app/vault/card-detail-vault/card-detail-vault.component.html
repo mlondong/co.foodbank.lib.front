@@ -1,0 +1,338 @@
+<mat-toolbar>
+    <span>Vault Detail</span>
+</mat-toolbar>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table-secondary">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Provider:</th>
+                        <td>{{user.name}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Legal Representation:</th>
+                        <td>{{user.legalRepresentation}}</td>
+                    </tr>
+
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Email:</th>
+                        <td>{{user.email}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Cuil:</th>
+                        <td>{{user.cuil}}</td>
+                    </tr>
+
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Current State:</th>
+                        <td *ngIf="user.state === true">Active</td>
+                        <td *ngIf="user.state===false">InActive</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Sucursal actives:</th>
+                        <td style="font-weight: bold; color: green;">{{user.sucursal.length}}</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalEditVault">Edit Vault</button>
+                            <button type="button" class="btn btn-success" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalAddDetVault" (click)="changeForm(1);">Add
+                                Detail-Contribution</button>
+                            <button type="button" class="btn btn-success" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalAddDetVault" (click)="changeForm(2);">Add
+                                General-Contribution</button>
+                        </th>
+                        <td></td>
+
+                    </tr>
+
+                    <tr>
+                        <th>Contact:</th>
+                        <td>{{vaultResponse.contact}}</td>
+                    </tr>
+                    <tr>
+                        <th>Phones:</th>
+                        <td>{{vaultResponse.phones}}</td>
+                    </tr>
+                    <tr>
+                        <th>Address:</th>
+                        <td>{{vaultResponse.address.streetName +' '+ vaultResponse.address.streetNumber}}</td>
+                    </tr>
+                    <tr>
+                        <th>Postal Code:</th>
+                        <td>{{vaultResponse.address.postalCode}}</td>
+                    </tr>
+                    <tr>
+                        <th>Location:</th>
+                        <td>{{vaultResponse.address.district +' - '+ vaultResponse.address.country.name}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Contributions Actives:</th>
+                        <td style="font-weight: bold; color: red;">{{vaultResponse.contribution.length}}</td>
+                    </tr>
+
+                </thead>
+            </table>
+        </div>
+
+        <br>
+        <div>
+            <table class="table table-dark table-sm table-hover">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Type Detail / General</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Date register</th>
+                        <th scope="col"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr scope="row" *ngFor="let contribution of vaultResponse.contribution">
+                        <td>{{contribution.id}}</td>
+                        <td>{{contribution.description}}</td>
+                        <td *ngIf="contribution.codeBar != null">{{'Codebar: '+contribution.codeBar +', Packages: '+
+                            contribution.numOfPackage}}</td>
+                        <td *ngIf="contribution.volume != null">{{'Volume(HxWxL): '+contribution.volume.high +' X '+
+                            contribution.volume.wide + ' X '+ contribution.volume.longitud}}</td>
+                        <td>{{contribution.state.type}}</td>
+                        <td>{{contribution.date}}</td>
+                        <td>
+                            <button *ngIf="contribution.volume != null" type="button" data-target="#modalEditContribution" data-toggle="modal"
+                                class="btn btn-outline-success btn-sm" (click)="changeForm(1); showDataContribution(contribution.id);" >Edit</button>
+                            <button *ngIf="contribution.codeBar != null" type="button" data-target="#modalEditContribution" data-toggle="modal"
+                                class="btn btn-outline-success btn-sm" (click)="changeForm(2); showDataContribution(contribution.id);">Edit</button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal edit Vault -->
+<div class="modal dialog" id="modalEditVault" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#0d6efd; color: #fff">
+                <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Edit Vault</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #onEditVaultForm="ngForm" (ngSubmit)="editObjVault(onEditVaultForm.value);" id="">
+
+
+                    <div class="form-group">
+                        <label for="contact">Contact:</label>
+                        <input type="text" [(ngModel)]="vaultResponse.contact" name="contact" class="form-control"
+                            id="contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phones">Phones:</label>
+                        <input type="text" [(ngModel)]="vaultResponse.phones" name="phones" class="form-control"
+                            id="phones" required>
+                    </div>
+                    <p></p>
+                    <div style="background-color:#3fb577; color: #fff">
+                        <h2>Address</h2>
+                    </div>
+                    <div class="form-group">
+                        <label for="streetName">Street name:</label>
+                        <input type="text" [(ngModel)]="vaultResponse.address.streetName" name="streetName"
+                            class="form-control" id="streetName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="streetNumber">Street number:</label>
+                        <input type="text" [(ngModel)]="vaultResponse.address.streetNumber" name="streetNumber"
+                            class="form-control" id="streetNumber" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postalCode">Postal code:</label>
+                        <input type="text" [(ngModel)]="vaultResponse.address.postalCode" name="postalCode"
+                            class="form-control" id="postalCode" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="district">District:</label>
+                        <input type="text" [(ngModel)]="vaultResponse.address.district" name="district"
+                            class="form-control" id="district" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input type="text" [(ngModel)]="vaultResponse.address.country.name" name="country"
+                            class="form-control" id="country" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <!--  [disabled]="onAddProviderForm.invalid"-->
+                        <button type="button" id="add-vault-form" name="add-vault-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" [disabled]="onEditVaultForm.invalid" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal add contribution detail and general  in  Vault -->
+<div class="modal dialog" id="modalAddDetVault" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#198754; color: #fff">
+                <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Add {{optionForm}}</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #onAddDetVaultForm="ngForm" (ngSubmit)="addDetContribution(onAddDetVaultForm.value);" id="">
+
+
+                    <div class="form-group">
+                        <label for="contact">Description:</label>
+                        <input type="text" ngModel name="description" class="form-control" id="description" required>
+                    </div>
+                    <div class="form-group">
+                        <!--  -->
+                        <label for="phones">Date:</label>
+                        <input type="text" [(ngModel)]="currentDate" readonly="readonly" name="date"
+                            class="form-control" id="date" required>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===false">
+                        <label for="phones">Code Product:</label>
+                        <input type="text" ngModel name="codeBar" class="form-control" id="codeBar" required>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===false">
+                        <label for="phones">Num of Packaged:</label>
+                        <input type="text" ngModel name="numOfPackage" class="form-control" id="numOfPackage" required>
+                    </div>
+
+                    <div *ngIf="isShowForm===true" style="background-color:#3fb577; color: #fff; text-align: center;">
+                        <h2>Volume</h2>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===true">
+                        <label for="phones">High:</label>
+                        <input type="text" ngModel name="high" class="form-control" id="high" required>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===true">
+                        <label for="phones">Wide:</label>
+                        <input type="text" ngModel name="wide" class="form-control" id="wide" required>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===true">
+                        <label for="phones">Longitud:</label>
+                        <input type="text" ngModel name="longitud" class="form-control" id="longitud" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <!--  [disabled]="onAddProviderForm.invalid"-->
+                        <button type="button" id="add-vault-form" name="add-vault-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" [disabled]="onAddDetVaultForm.invalid"
+                            class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal Edit Contribution for detail and general -->
+<div class="modal dialog" id="modalEditContribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#198754; color: #fff">
+                <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Edit {{optionForm}}</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #onEditContributionForm="ngForm" (ngSubmit)="editFormContribution(onEditContributionForm.value);" id="">
+                       {{contributionResponse | json }} 
+
+                    <div class="form-group">
+                        <label for="contact">Description:</label>
+                        <input type="text"  ngModel name="description" class="form-control" id="description" required>
+                    </div>
+                    <div class="form-group">
+                        <!--  -->
+                        <label for="phones">Date:</label>
+                        <input type="text" [(ngModel)]="currentDate" readonly="readonly" name="date"
+                            class="form-control" id="date" required>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===false">
+                        <label for="phones">Code Product:</label>
+                        <input type="text" ngModel name="codeBar" class="form-control" id="codeBar" required>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===false">
+                        <label for="phones">Num of Packaged:</label>
+                        <input type="text" ngModel name="numOfPackage" class="form-control" id="numOfPackage" required>
+                    </div>
+
+                    <div *ngIf="isShowForm===true" style="background-color:#3fb577; color: #fff; text-align: center;">
+                        <h2>Volume</h2>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===true">
+                        <label for="phones">High:</label>
+                        <input type="text" ngModel name="high" class="form-control" id="high" required>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===true">
+                        <label for="phones">Wide:</label>
+                        <input type="text" ngModel name="wide" class="form-control" id="wide" required>
+                    </div>
+                    <div class="form-group" *ngIf="isShowForm===true">
+                        <label for="phones">Longitud:</label>
+                        <input type="text" ngModel name="longitud" class="form-control" id="longitud" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <!--  [disabled]="onAddProviderForm.invalid"-->
+                        <button type="button" id="add-vault-form" name="add-vault-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" [disabled]="onAddDetVaultForm.invalid"
+                            class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
