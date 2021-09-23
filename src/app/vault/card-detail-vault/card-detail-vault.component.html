@@ -97,6 +97,7 @@
             <table class="table table-dark table-sm table-hover">
                 <thead style="position: sticky; top: 0; z-index: 1;">
                     <tr>
+                        <th scope="col">Type</th>
                         <th scope="col">Id</th>
                         <th scope="col">Description</th>
                         <th scope="col">Type Detail / General</th>
@@ -108,6 +109,8 @@
                 </thead>
                 <tbody>
                     <tr scope="row" *ngFor="let contribution of vaultResponse.contribution">
+                        <td *ngIf="contribution.volume != null">G</td>
+                        <td *ngIf="contribution.codeBar != null">D</td>
                         <td>{{contribution.id}}</td>
                         <td>{{contribution.description}}</td>
                         <td *ngIf="contribution.codeBar != null">{{'Codebar: '+contribution.codeBar +', Packages: '+
@@ -117,10 +120,14 @@
                         <td>{{contribution.state.type}}</td>
                         <td>{{contribution.date}}</td>
                         <td>
-                            <button *ngIf="contribution.volume != null" type="button" data-target="#modalEditContribution" data-toggle="modal"
-                                class="btn btn-outline-success btn-sm" (click)="changeForm(1); showDataContribution(contribution.id);" >Edit</button>
-                            <button *ngIf="contribution.codeBar != null" type="button" data-target="#modalEditContribution" data-toggle="modal"
-                                class="btn btn-outline-success btn-sm" (click)="changeForm(2); showDataContribution(contribution.id);">Edit</button>
+                            <button *ngIf="contribution.volume != null" type="button"
+                                data-target="#modalEditContribution" data-toggle="modal"
+                                class="btn btn-outline-success btn-sm"
+                                (click)="showDataContribution(contribution.id);">Edit</button>
+                            <button *ngIf="contribution.codeBar != null" type="button"
+                                data-target="#modalEditContribution" data-toggle="modal"
+                                class="btn btn-outline-success btn-sm"
+                                (click)="showDataContribution(contribution.id);">Edit</button>
                         </td>
 
                     </tr>
@@ -273,8 +280,8 @@
 
 
 <!-- Modal Edit Contribution for detail and general -->
-<div class="modal dialog" id="modalEditContribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
-    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+<div class="modal dialog" id="modalEditContribution" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalUpdateTitle" data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#198754; color: #fff">
@@ -284,12 +291,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form #onEditContributionForm="ngForm" (ngSubmit)="editFormContribution(onEditContributionForm.value);" id="">
-                       {{contributionResponse | json }} 
+                <form #onEditContributionForm="ngForm" (ngSubmit)="editFormContribution(onEditContributionForm.value);"
+                    id="">
+                    {{ isShowForm +' '+ contributionResponse | json }}
 
                     <div class="form-group">
                         <label for="contact">Description:</label>
-                        <input type="text"  ngModel name="description" class="form-control" id="description" required>
+                        <input type="text" [(ngModel)]="contributionResponse.description" name="description"
+                            class="form-control" id="description" required>
                     </div>
                     <div class="form-group">
                         <!--  -->
@@ -297,29 +306,34 @@
                         <input type="text" [(ngModel)]="currentDate" readonly="readonly" name="date"
                             class="form-control" id="date" required>
                     </div>
-                    <div class="form-group" *ngIf="isShowForm===false">
+                    <div class="form-group" *ngIf="contributionResponse.codeBar != null">
                         <label for="phones">Code Product:</label>
-                        <input type="text" ngModel name="codeBar" class="form-control" id="codeBar" required>
+                        <input type="text" [(ngModel)]="contributionResponse.codeBar" name="codeBar"
+                            class="form-control" id="codeBar" required>
                     </div>
-                    <div class="form-group" *ngIf="isShowForm===false">
+                    <div class="form-group" *ngIf="contributionResponse.codeBar != null">
                         <label for="phones">Num of Packaged:</label>
-                        <input type="text" ngModel name="numOfPackage" class="form-control" id="numOfPackage" required>
+                        <input type="text" [(ngModel)]="contributionResponse.numOfPackage" name="numOfPackage"
+                            class="form-control" id="numOfPackage" required>
                     </div>
 
-                    <div *ngIf="isShowForm===true" style="background-color:#3fb577; color: #fff; text-align: center;">
+                    <div *ngIf="contributionResponse.volume != null" style="background-color:#3fb577; color: #fff; text-align: center;">
                         <h2>Volume</h2>
                     </div>
-                    <div class="form-group" *ngIf="isShowForm===true">
+                    <div class="form-group" *ngIf="contributionResponse.volume != null">
                         <label for="phones">High:</label>
-                        <input type="text" ngModel name="high" class="form-control" id="high" required>
+                        <input type="text" [(ngModel)]="contributionResponse.volume.high" name="high"
+                            class="form-control" id="high" required>
                     </div>
-                    <div class="form-group" *ngIf="isShowForm===true">
+                    <div class="form-group" *ngIf="contributionResponse.volume != null">
                         <label for="phones">Wide:</label>
-                        <input type="text" ngModel name="wide" class="form-control" id="wide" required>
+                        <input type="text" [(ngModel)]="contributionResponse.volume.wide" name="wide"
+                            class="form-control" id="wide" required>
                     </div>
-                    <div class="form-group" *ngIf="isShowForm===true">
+                    <div class="form-group" *ngIf="contributionResponse.volume != null">
                         <label for="phones">Longitud:</label>
-                        <input type="text" ngModel name="longitud" class="form-control" id="longitud" required>
+                        <input type="text" [(ngModel)]="contributionResponse.volume.longitud" name="longitud"
+                            class="form-control" id="longitud" required>
                     </div>
 
                     <div class="modal-footer">
@@ -334,5 +348,3 @@
         </div>
     </div>
 </div>
-
-

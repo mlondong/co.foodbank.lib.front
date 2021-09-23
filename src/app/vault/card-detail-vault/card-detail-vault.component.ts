@@ -37,6 +37,8 @@ export class CardDetailVaultComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log("llamamndo...");
+    this.contributionResponse={};
     let today = new Date();
     this.currentDate = formatDate(today, 'yyyy-MM-dd', 'en-US');
 
@@ -117,17 +119,17 @@ export class CardDetailVaultComponent implements OnInit {
   }
 
   public showDataContribution(id: string) {
-     this.contributionService.findById(id).subscribe(
-      (response: any) => {
-        this.contributionResponse = response;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error.status);
-      }
-    );
-
+    this.contributionResponse={};
     
-
+      this.contributionService.findById(id).subscribe(
+        (response: any) => {
+          this.contributionResponse = response;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.status);
+        }
+      );
+   
   }
 
   public showFormDetailContribution() {
