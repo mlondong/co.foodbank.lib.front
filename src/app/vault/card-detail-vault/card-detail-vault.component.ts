@@ -32,6 +32,7 @@ export class CardDetailVaultComponent implements OnInit {
   isShowForm: boolean;
   currentDate: any;
   contributionResponse: any;
+  updatedContribution: any;
 
 
 
@@ -43,8 +44,11 @@ export class CardDetailVaultComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log("llamamndo...");
     this.contributionResponse = {};
+    this.updatedContribution = {};
+    this.vaultResponse = <Vault>{};
+
+
     let today = new Date();
     this.currentDate = formatDate(today, 'yyyy-MM-dd', 'en-US');
 
@@ -178,33 +182,60 @@ export class CardDetailVaultComponent implements OnInit {
   /*Method to update  Contributions*/
   public editFormContribution(form: NgForm) {
 
-    if (isDefined(form.controls.numOfPackage.value)) {
-          const detailContrib = this.buildDetailContribution(form);
+    const isDetail = this.checkForm(form);
+    let idVault = this.vaultResponse.id;
+    let idContribution = this.getIdContribution(form);
 
-          this.contributionService.updateDetailContribution(form.controls.id.value,detailContrib).subscribe(
-            (response: any) => {
-              this.vaultResponse = response;
-            },
-            (error: HttpErrorResponse) => {
-              console.log(error.status);
-            }
-          );
-    } else {
 
+    if (isDetail === true) {
+      const detailContrib = this.buildDetailContribution(form);
+
+      this.vaultService.updateDetailContributionInVault(idVault, idContribution, detailContrib).subscribe(
+        (response: any) => {
+          this.vaultResponse = response;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.status);
+        }
+      );
+    }
+    else {
+      const volume = this.buildVolume(form);
+      const generalContrib = this.buildGeneralContribution(form, volume);
+      this.vaultService.updateGeneralContributionInVault(idVault, idContribution, generalContrib).subscribe(
+        (response: any) => {
+          this.vaultResponse = response;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.status);
+        }
+      );
     }
 
-    /*this.contributionService.updateDetailContribution(id,  DetailContribution).subscribe(
-       (response: any) => {
-         this.contributionResponse = response;
-       },
-       (error: HttpErrorResponse) => {
-         console.log(error.status);
-       }
-     );*/
+   
+  }
 
+  /*Method to remove contributions in state pending*/
+  public removeContribution(form: any){
 
   }
 
+
+
+
+
+  public getIdContribution(data: any): string {
+    return data.id;
+  }
+
+  public checkForm(data: any): boolean {
+
+    let isDetail: boolean = false;
+    if (data.numOfPackage != null) {
+      isDetail = true;
+    }
+    return isDetail
+  }
 
   private editDGeneralContribution(form: NgForm) {
   }

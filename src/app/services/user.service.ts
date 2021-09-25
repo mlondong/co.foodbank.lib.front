@@ -44,6 +44,10 @@ export class UserService {
   public findVolunteer(userId: String, dni: number): Observable<any> {
     return this.http.get<any>(operationUser.findVolunteer + `?id=${userId}&dni=${dni}`);
   }
+  public findBySucusal(idSucursal: string):Observable<Providerr>{
+    return this.http.get<Providerr>(operationUser.findBySucursal+`${idSucursal}`);
+  }
+
 
   /*All operations POST*/
   public addBeneficiary(beficiary: Beneficiary): Observable<Beneficiary> {
