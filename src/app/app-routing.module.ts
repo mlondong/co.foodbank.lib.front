@@ -7,6 +7,8 @@ import {CardEditProviderComponent}  from './user/card-edit-provider/card-edit-pr
 import { CardEditVolunteerComponent } from './user/card-edit-volunteer/card-edit-volunteer.component';
 import {CardEditBeneficiaryComponent} from './user/card-edit-beneficiary/card-edit-beneficiary.component';
 import {CardVaultComponent} from './vault/card-vault/card-vault.component';
+import {CardDetailVaultComponent} from './vault/card-detail-vault/card-detail-vault.component';
+
 
 
 /*ALL ROUTING MODULES FOR FOODBANK*/
@@ -19,6 +21,8 @@ const routes: Routes = [
   { path: 'editvolunteer/:id', component: CardEditVolunteerComponent},
   { path: 'editbeneficiary/:id', component: CardEditBeneficiaryComponent},
   { path: 'vault', component: CardVaultComponent},
+  { path: 'detailVault/:id', component: CardDetailVaultComponent},
+  
   
   
   

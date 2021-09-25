@@ -315,7 +315,7 @@
 
 <!-- List All users-->
 <!-- <div class="card my-5">-->
-<div class="table-responsive-md" style="overflow-y: auto; height:460px; width: 1600px;">
+<div *ngIf="user.length!=0" class="table-responsive-md" style="overflow-y: auto; height:460px; width: 1600px;">
   <div class="card-body">
 
     <table class="table table-dark table-sm table-hover">

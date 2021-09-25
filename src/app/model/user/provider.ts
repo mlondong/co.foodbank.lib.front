@@ -11,6 +11,10 @@ export class Providerr {
     public cuil: string;
     public legalRepresentation: string;
     public address: Address;
+    public state: boolean;
+    public sucursal: [];
+    
+    
 
    public constructor(name: string, email: string, password: string, phones: string, cuil: string, legalRepresentation: string , address: Address) {
         this.name=name;

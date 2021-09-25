@@ -15,8 +15,8 @@ export const operationContribution = {
 
 
  /*PUT OPERATIONS IN Contribution*/
- updateDetailContribution : endpointFoodBank.apiUrlContribution +'​/contribution​/updateDetailContribution​/',
- updateGeneralContribution : endpointFoodBank.apiUrlContribution +'/contribution/updateGeneralContribution/',
+ updateDetailContribution : endpointFoodBank.apiUrlContribution+'/contribution/updateDetailContribution/',
+ updateGeneralContribution : endpointFoodBank.apiUrlContribution+'/contribution/updateGeneralContribution/',
 
  /*POST OPERATIONS IN Contribution*/
  /*all operations to create contribution is handle by vault service*/
