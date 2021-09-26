@@ -1,0 +1,132 @@
+<mat-toolbar>
+    <span>All Contributions</span>
+</mat-toolbar>
+
+<!-- Div information about contributions-->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table-secondary">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Total contributions:</th>
+                        <td>{{contribution.length}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">General Contributions:</th>
+                        <td>{{calculateContributionNumberGeneral()}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Detail Contributions:</th>
+                        <td>{{calculateContributionNumberDetail()}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Total Pending:</th>
+                        <td style="font-weight: bold; color: red;">{{calculateState('Pending')}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Total Picked up:</th>
+                        <td style="font-weight: bold; color: black;">{{calculateState('PickedUp')}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Total InHouse:</th>
+                        <td style="font-weight: bold; color: green;">{{calculateState('InHouse')}}</td>
+                    </tr>
+
+
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Div vault Detail -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" (click)="listAll();">List
+                                All</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalFindContribution" (click)="changeForm(1);">Search by Id</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalFindContribution" (click)="changeForm(2);">Search By Code
+                                Bar</button>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <br>
+
+
+        <!-- Div TABLE TO SHOW  COntributions in vault-->
+
+        <div class="table-responsive-md" style="overflow-y: auto; height:350px; width: 1600px;">
+            <table class="table table-dark table-sm table-hover">
+                <thead style="position: sticky; top: 0; z-index: 10;">
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Type Detail / General</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Date register</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr scope="row" *ngFor="let contribution of contribution">
+                        <td *ngIf="contribution.volume != null">G</td>
+                        <td *ngIf="contribution.codeBar != null">D</td>
+                        <td>{{contribution.id}}</td>
+                        <td>{{contribution.description}}</td>
+                        <td *ngIf="contribution.codeBar != null">{{'Codebar: '+contribution.codeBar +', Packages: '+
+                            contribution.numOfPackage}}</td>
+                        <td *ngIf="contribution.volume != null">{{'Volume(HxWxL): '+contribution.volume.high +' X '+
+                            contribution.volume.wide + ' X '+ contribution.volume.longitud}}</td>
+                        <td>{{contribution.state.type}}</td>
+                        <td>{{contribution.date}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+<!-- Modal search -->
+<div class="modal fade" id="modalFindContribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0d6efd; color: #fff">
+                <h2 class="modal-title" id="exampleModalLongTitle">Contribution</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #findForm="ngForm" (ngSubmit)="onFind(findForm)">
+                    <div class="form-group">
+                        <label for="usid">Search: {{labelForm}}</label>
+                        <input type="text" ngModel name="usid" class="form-control" id="usid" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-employee-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button [disabled]="findForm.invalid" type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
