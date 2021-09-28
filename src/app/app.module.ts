@@ -38,7 +38,10 @@ import { CardEditBeneficiaryComponent } from './user/card-edit-beneficiary/card-
 import { CardEditProviderComponent } from './user/card-edit-provider/card-edit-provider.component';
 
 import { CardVaultComponent } from './vault/card-vault/card-vault.component';
+
 import { CardDetailVaultComponent } from './vault/card-detail-vault/card-detail-vault.component';
+import { CardContributionComponent } from './contribution/card-contribution/card-contribution.component';
+import { CardProductComponent } from './product/card-product/card-product.component';
 
 
 
@@ -57,6 +60,8 @@ import { CardDetailVaultComponent } from './vault/card-detail-vault/card-detail-
     CardEditBeneficiaryComponent,
     CardVaultComponent,
     CardDetailVaultComponent,
+    CardContributionComponent,
+    CardProductComponent,
   ],
   imports: [
     BrowserModule,

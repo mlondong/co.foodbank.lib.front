@@ -26,14 +26,14 @@ public searchByName(name:string):Observable<any[]>{
 
 
 /**POST OPERATIONS */
-public create (product: Product):Observable<Product>{
-  return this.http.post<Product>(operationProduct.create, product);
+public create (product: Product, type:string):Observable<Product>{
+  return this.http.post<Product>(operationProduct.create+`${type}`, product);
 }
 
 
 /**PUT  OPERATIONS */
 public update (id: string ,product: Product):Observable<Product>{
-  return this.http.post<Product>(operationProduct.update+`${id}` , product);
+  return this.http.put<Product>(operationProduct.update+`${id}` , product);
 }
 
 
