@@ -23,7 +23,7 @@ export class CardVaultComponent implements OnInit {
   users: any[] = [];
   userObjectFilter: Array<Providerr> = [];
   filter: Array<Providerr> = [];
-  responseVault: any={};
+  responseVault: any = {};
 
 
 
@@ -74,18 +74,18 @@ export class CardVaultComponent implements OnInit {
         console.log(error.message);
       }
     );
-    
+
   }
 
 
   public filterAllProvider(): void {
-    this.userObjectFilter =[];
+    this.userObjectFilter = [];
     Object.keys(this.users)
       .map((key) => {
         this.userObjectFilter.push(this.users[key]);
       });
 
-      this.userObjectFilter = this.userObjectFilter && this.userObjectFilter.filter(d => d.cuil !=null);
+    this.userObjectFilter = this.userObjectFilter && this.userObjectFilter.filter(d => d.cuil != null);
   }
 
 
@@ -104,7 +104,10 @@ export class CardVaultComponent implements OnInit {
   public findByLOcation(name: string): void {
     const datos = this.vaultService.findByDistrict(name).subscribe(
       (response: any[]) => {
-        this.vault = response;
+        if (response.length != 0) {
+          this.vault = [];
+          this.vault = response;
+        }
       },
       (error: HttpErrorResponse) => {
         console.log(error.status);
@@ -128,7 +131,10 @@ export class CardVaultComponent implements OnInit {
   public findByContact(data: any): void {
     const datos = this.vaultService.findByContact(data).subscribe(
       (response: any[]) => {
-        this.vault = response;
+        if (response.length != 0) {
+          this.vault = [];
+          this.vault = response;
+        }
       },
       (error: HttpErrorResponse) => {
         console.log(error.status);
@@ -153,21 +159,21 @@ export class CardVaultComponent implements OnInit {
         console.log(error.message); //aca debe ser un evento del interceptor
       });
 
-     if(this.responseVault != null){
-        document.getElementById("add-vault-form")?.click();
-        document.getElementById("onAddVaultForm")?.onreset;
-        this.listAll();
-     }
-      
+    if (this.responseVault != null) {
+      document.getElementById("add-vault-form")?.click();
+      document.getElementById("onAddVaultForm")?.onreset;
+      this.listAll();
+    }
+
   }
 
-  private getIdrovider(provider: any):any {
+  private getIdrovider(provider: any): any {
     return provider.idProvider;
- }
+  }
 
 
-  private buildVault(provider: any, address: Address):Vault {
-     return new Vault(provider.phones, provider.contact, address);
+  private buildVault(provider: any, address: Address): Vault {
+    return new Vault(provider.phones, provider.contact, address);
   }
 
   private buildAddress(provider: any, country: Country): Address {
