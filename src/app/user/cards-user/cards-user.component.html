@@ -69,14 +69,14 @@
             <td *ngIf="user.address ">{{ user.address.postalCode }}</td>
             <td *ngIf="user.address ">{{ user.address.district +' - '+user.address.country.name }}</td>
             <td>
-              <button class="btn btn-outline-success btn-sm ng-star-inserted" *ngIf="user.cuil != null &&  user.legalRepresentation != null" mat-button data-toggle="modal"
+              <button class="btn btn-outline-success btn-sm ng-star-inserted" *ngIf="user.cuil != null &&  user.legalRepresentation != null"  data-toggle="modal"
                 data-target="#exampleModalUpdate" type="button" 
                 [routerLink]="['/editprovider', user.id]">Edit</button>
 
-              <button class="btn btn-outline-success btn-sm ng-star-inserted" *ngIf="user.dni != null " mat-button data-toggle="modal" data-target="#exampleModalUpdate"
+              <button class="btn btn-outline-success btn-sm ng-star-inserted" *ngIf="user.dni != null "  data-toggle="modal" data-target="#exampleModalUpdate"
                 type="button"  [routerLink]="['/editvolunteer', user.id]">Edit</button>
 
-              <button class="btn btn-outline-success btn-sm ng-star-inserted" *ngIf="user.socialReason != null && user.category" mat-button data-toggle="modal"
+              <button class="btn btn-outline-success btn-sm ng-star-inserted" *ngIf="user.socialReason != null && user.category"  data-toggle="modal"
                 data-target="#exampleModalUpdate" type="button" 
                 [routerLink]="['/editbeneficiary', user.id]">Edit</button>
 
