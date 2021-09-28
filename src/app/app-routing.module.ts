@@ -8,6 +8,8 @@ import { CardEditVolunteerComponent } from './user/card-edit-volunteer/card-edit
 import {CardEditBeneficiaryComponent} from './user/card-edit-beneficiary/card-edit-beneficiary.component';
 import {CardVaultComponent} from './vault/card-vault/card-vault.component';
 import {CardDetailVaultComponent} from './vault/card-detail-vault/card-detail-vault.component';
+import { CardContributionComponent } from './contribution/card-contribution/card-contribution.component';
+import { CardProductComponent } from './product/card-product/card-product.component';
 
 
 
@@ -22,6 +24,10 @@ const routes: Routes = [
   { path: 'editbeneficiary/:id', component: CardEditBeneficiaryComponent},
   { path: 'vault', component: CardVaultComponent},
   { path: 'detailVault/:id', component: CardDetailVaultComponent},
+  { path: 'contribution', component: CardContributionComponent},
+  { path: 'product', component: CardProductComponent},
+  
+  
   
   
   

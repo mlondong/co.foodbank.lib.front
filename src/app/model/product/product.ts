@@ -1,6 +1,7 @@
 
 export class Product {
 
+    public id: string;
     public name: string;
     public description: string;
     public brand: string;
@@ -10,7 +11,7 @@ export class Product {
     public requiredRefrigeration: boolean;
 
     public constructor(name: string, description: string, brand: string, dateExpiraton: Date,
-        expectedStorageLife: string, requiredRefrigeration: boolean) {
+        expectedStorageLife: string, storageTemperature: string, requiredRefrigeration: boolean) {
 
             this.name=name;
             this.description=description;
@@ -18,5 +19,6 @@ export class Product {
             this.dateExpiraton=dateExpiraton;
             this.expectedStorageLife=expectedStorageLife;
             this.requiredRefrigeration=requiredRefrigeration;
+            this.storageTemperature=storageTemperature;
     }
 }

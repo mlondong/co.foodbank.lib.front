@@ -1,0 +1,263 @@
+<mat-toolbar>
+    <span>All Products</span>
+</mat-toolbar>
+
+<br>
+<!-- Div information about contributions-->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table-secondary">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Total Produtcs:</th>
+                        <td>{{responseProduct.length}}</td>
+                    </tr>
+
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-success" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalAddProduct" (click)="changeForm(1);">Add</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" (click)="listAll();">List
+                                All</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalFindProduct" (click)="changeForm(1);">Search by Id</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalFindProduct" (click)="changeForm(2);">Search By Name</button>
+
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <br>
+
+        <!-- Div TABLE TO SHOW  Type Products -->
+        <div class="table-responsive-md" style="overflow-y: auto; height:550px; width: 1600px;">
+            <table class="table table-dark table-sm table-hover">
+                <thead style="position: sticky; top: 0; z-index: 10;">
+
+                    <tr>
+                        <th scope="col">Date Register</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Average Storage Life (days)</th>
+                        <th scope="col">Average Storage Temperature (C)</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr scope="row" *ngFor="let result of responseProduct">
+                        <td>{{result.dateExpiraton}}</td>
+
+                        <td *ngIf="result.requiredRefrigeration!=null">SemiPerishable</td>
+                        <td *ngIf="result.expectedStorageLife!=null">Perishable</td>
+                        <td *ngIf="result.expectedStorageLife == null && result.requiredRefrigeration == null">
+                            Non-Perishable</td>
+                        <td>{{result.id}}</td>
+                        <td>{{result.name}}</td>
+                        <td>{{result.description}}</td>
+                        <td>{{result.brand}}</td>
+                        <td style="text-align: center;">{{result.expectedStorageLife}}</td>
+                        <td style="text-align: center;">{{result.storageTemperature}}</td>
+                        <td>
+                            <button type="button" data-target="#modalEditProduct" data-toggle="modal"
+                                class="btn btn-outline-success btn-sm" (click)="showInfo(result.id);">Edit</button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal search -->
+<div class="modal fade" id="modalFindProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0d6efd; color: #fff">
+                <h2 class="modal-title" id="exampleModalLongTitle">Product</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #findForm="ngForm" (ngSubmit)="onFind(findForm)">
+                    <div class="form-group">
+                        <label for="usid">Search: {{labelForm}}</label>
+                        <input type="text" ngModel name="usid" class="form-control" id="usid" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-employee-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button [disabled]="findForm.invalid" type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal add Product  -->
+<div class="modal dialog" id="modalAddProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#198754; color: #fff">
+                <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Add Product </h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #onAddProduct="ngForm" (ngSubmit)="create(onAddProduct.value);" id="">
+
+                    <div class="form-group">
+                        <label for="dateExpiraton">Date Register:</label>
+                        <input type="text" [(ngModel)]="currentDate" readonly="readonly" name="dateExpiraton"
+                            class="form-control" id="dateExpiraton" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Type Product:</label>
+                        <select class="form-select" name="type"   id="type" [ngModel]="typeProduct"  (ngModelChange)="onChange($event);">
+                            <option [value]="item" *ngFor="let item of listTypeProducts">{{item}}</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" ngModel name="name" class="form-control" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input type="text" ngModel name="description" class="form-control" id="description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Brand:</label>
+                        <input type="text" ngModel name="brand" class="form-control" id="brand" required>
+                    </div>
+
+                    <div class="form-group" *ngIf="isPerishable === true">
+                        <label for="expectedStorageLife">Storage Life in days:</label>
+                        <input type="text" ngModel name="expectedStorageLife" class="form-control"
+                            id="expectedStorageLife" required>
+                    </div>
+
+                    <div class="form-group" *ngIf="isPerishable === true">
+                        <label for="storageTemperature">Storage Temperature:</label>
+                        <input type="text" ngModel name="storageTemperature" class="form-control"
+                            id="storageTemperature" required>
+                    </div>
+                    <br>
+                    <div class="form-check" *ngIf="isSemiPerishable === true">
+                        <label for="requiredRefrigeration">Required Refrigeration</label>
+                        <input type="checkbox" ngModel class="form-check-input" name="requiredRefrigeration"
+                            id="requiredRefrigeration" required>
+                    </div>
+
+                    <br>
+                    <div class="modal-footer" >
+                        <button type="button" id="add-vault-form" name="add-vault-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" [disabled]="onAddProduct.invalid" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal Edit Product  -->
+<div class="modal dialog" id="modalEditProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#0d6efd; color: #fff">
+                <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Edit Product</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #onEditProduct="ngForm" (ngSubmit)="update(onEditProduct.value);" id="">
+
+                    <div class="form-group">
+                        <input type="hidden" [(ngModel)]="requestProduct.id" name="id" class="form-control" id="id"
+                            required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Date Register:</label>
+                        <input type="text" [(ngModel)]="currentDate" readonly="readonly" name="dateExpiraton"
+                            class="form-control" id="dateExpiraton" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" [(ngModel)]="requestProduct.name" name="name" class="form-control" id="name"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input type="text" [(ngModel)]="requestProduct.description" name="description"
+                            class="form-control" id="description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Brand:</label>
+                        <input type="text" [(ngModel)]="requestProduct.brand" name="brand" class="form-control"
+                            id="brand" required>
+                    </div>
+
+                    <div class="form-group" *ngIf="requestProduct.expectedStorageLife!=null">
+                        <label for="expectedStorageLife">Storage Life in days:</label>
+                        <input type="text" [(ngModel)]="requestProduct.expectedStorageLife" name="expectedStorageLife"
+                            class="form-control" id="expectedStorageLife" required>
+                    </div>
+
+                    <div class="form-group" *ngIf="requestProduct.storageTemperature!=null">
+                        <label for="storageTemperature">Storage Temperature:</label>
+                        <input type="text" [(ngModel)]="requestProduct.storageTemperature" name="storageTemperature"
+                            class="form-control" id="storageTemperature" required>
+                    </div>
+                    <br>
+                    <div class="form-check" *ngIf="requestProduct.requiredRefrigeration != null">
+                        <label for="requiredRefrigeration">Required Refrigeration</label>
+                        <input type="checkbox" [(ngModel)]="requestProduct.requiredRefrigeration"
+                            class="form-check-input" name="requiredRefrigeration" id="requiredRefrigeration" required>
+                    </div>
+
+                    <br>
+                    <div class="modal-footer">
+                        <button type="button" id="add-vault-form" name="add-vault-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
