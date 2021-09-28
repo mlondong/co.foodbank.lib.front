@@ -34,7 +34,7 @@ export class CardsUserComponent implements OnInit {
   volunteer: Volunteer;
   provider: Providerr;
 
-
+  //COntrsuctor
   constructor(private userService: UserService) { }
 
   /*Method init to put all users in a list */
@@ -42,6 +42,51 @@ export class CardsUserComponent implements OnInit {
     this.getAllUsers();
   }
 
+
+   //Method to calculate State Pending
+   public calculateState(option: string): number {
+    let flag:boolean=false;
+   
+    if(option === '1'){
+      flag=true;
+    }
+
+    let result: any[] = this.user.filter(d => d.state === flag);
+    return result.length;
+  }
+
+  public calculateNumOfProviders():number{
+    let count: number = 0;
+    this.user.forEach(d => {
+      if (d.cuil != null) {
+        count++;
+      }
+    }
+    );
+    return count;
+  }
+
+  public calculateNumOfVolunteers():number{
+    let count: number = 0;
+    this.user.forEach(d => {
+      if (d.dni != null) {
+        count++;
+      }
+    }
+    );
+    return count;
+  }
+
+  public calculateNumOfBeneficiaries():number{
+    let count: number = 0;
+    this.user.forEach(d => {
+      if (d.socialReason != null) {
+        count++;
+      }
+    }
+    );
+    return count;
+  }
 
   //! ********************************************************************************************************************************************
   //! MAIN FUNCTIONS TO HANDLE OPERATIONS IN USER
