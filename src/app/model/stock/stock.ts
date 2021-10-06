@@ -2,7 +2,8 @@ import { ContributionPK } from "../dtos/contributionPK";
 import { ProductPK } from "../dtos/productPK";
 
 export class Stock {
-
+   
+    public id: string;
     public dateStock: Date;
     public quantity: string;
     public contribution: ContributionPK;
