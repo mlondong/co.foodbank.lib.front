@@ -10,6 +10,8 @@ import {CardVaultComponent} from './vault/card-vault/card-vault.component';
 import {CardDetailVaultComponent} from './vault/card-detail-vault/card-detail-vault.component';
 import { CardContributionComponent } from './contribution/card-contribution/card-contribution.component';
 import { CardProductComponent } from './product/card-product/card-product.component';
+import { CardStockComponent } from './stock/card-stock/card-stock.component';
+import { DetailStockComponent } from './stock/detail-stock/detail-stock.component';
 
 
 
@@ -26,7 +28,8 @@ const routes: Routes = [
   { path: 'detailVault/:id', component: CardDetailVaultComponent},
   { path: 'contribution', component: CardContributionComponent},
   { path: 'product', component: CardProductComponent},
-  
+  { path: 'stock', component: CardStockComponent},
+  { path: 'detailStock/:id', component: DetailStockComponent},
   
   
   

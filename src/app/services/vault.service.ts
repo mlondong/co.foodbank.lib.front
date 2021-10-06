@@ -30,6 +30,10 @@ export class VaultService {
     return this.http.get<any>(operationVault.findId + `${id}`);
   }
 
+  public findContribution(id: any): Observable<any> {
+    return this.http.get<any>(operationVault.findContribution + `${id}`);
+  }
+
 
 
   /*All operations POST*/

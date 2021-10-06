@@ -1,0 +1,224 @@
+<mat-toolbar>
+    <span>Stock Configuration</span>
+</mat-toolbar>
+
+<!-- Div stock information -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table-secondary">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr class="table-secondary">
+                        <th class="table-secondary">
+                            <button type="button" class="btn btn-success" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalAddStock" (click)="findAllContributions();findAllProducts();">Add</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" (click)="listAll();">List
+                                All</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalFindStock" (click)="changeForm(4);">Search Product Name</button>
+                        </th>
+                        <td></td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<br>
+
+<!-- Div Stock information -->
+<div class="container">
+    <div class="row">
+
+        <!-- Div TABLE TO SHOW  Stock -->
+        <div class="table-responsive-md" style="overflow-y: auto; height:350px; width: 1600px;">
+            <table class="table table-dark table-sm table-hover">
+                <thead style="position: sticky; top: 0; z-index: 10;">
+                    <tr>
+                        <th scope="col">Stock Id</th>
+                        <th scope="col">Contribution Id</th>
+                        <th scope="col">Contribution Description</th>
+                        <th scope="col">Contribution Type</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Date of Register</th>
+                        <th scope="col">Units donated</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr scope="row" *ngFor="let stock of responseStock">
+                        <td>{{stock.id}}</td>
+                        <td>{{stock.contribution.id}}</td>
+                        <td>{{stock.contribution.description}}</td>
+                        <td>{{checkTypeContribution(stock.id)}}</td>
+                        <td>{{stock.product.name }}</td>
+                        <td>{{stock.product.brand }}</td>
+                        <td>{{stock.dateStock}}</td>
+                        <td>{{stock.quantity}}</td>
+                        <td>
+                            <button type="button" data-target="#modalEditContribution" data-toggle="modal"
+                                class="btn btn-outline-success btn-sm"  [routerLink]="['/detailStock', stock.id]">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+        <table class="table">
+            <thead style="position: sticky; top: 0; z-index: 1;">
+                <tr>
+                    <th>
+
+                        <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                            data-target="#modalFindStock" (click)="changeForm(1);">Search by Id</button>
+                        <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                            data-target="#modalFindStock" (click)="changeForm(2);">Search Contribution ID</button>
+                        <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                            data-target="#modalFindStock" (click)="changeForm(3);">Search Product ID</button>
+
+
+
+
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+
+    </div>
+</div>
+
+
+<!-- Modal search -->
+<div class="modal fade" id="modalFindStock" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0d6efd; color: #fff">
+                <h2 class="modal-title" id="exampleModalLongTitle">Product</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #findForm="ngForm" (ngSubmit)="onFind(findForm)">
+                    <div class="form-group">
+                        <label for="usid">Search: {{labelForm}}</label>
+                        <input type="text" ngModel name="usid" class="form-control" id="usid" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-employee-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button [disabled]="findForm.invalid" type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal add Stock  -->
+<div class="modal dialog" id="modalAddStock" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#198754; color: #fff">
+                <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Add Stock </h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <form #onSearchProduct="ngForm" (ngSubmit)="searchProdContributions(onSearchProduct);" id="">
+                            <label for="name">Search Product in Contribution to add in stock:</label>
+                            <input type="search" [(ngModel)]="searchValue" name="product" id="product"
+                                class="form-control" required>
+                            <button [disabled]="onSearchProduct.invalid" style="margin:5px;" type="submit"
+                                class="btn btn-outline-success my-2 my-sm-0">Search</button>
+                            <button type="button" id="clear" style="margin:5px;" name="clear"
+                                class="btn btn-outline-dark my-2 my-sm-0" (click)="clear();">Clear</button>
+                        </form>
+                        <br>
+                        <div class="table-responsive-md" style="overflow-y: auto; height:150px; width: 700px;">
+                            <table class="table table-hover">
+                                <thead
+                                    style="position: sticky; top: 0; z-index: 10; background-color:#198754; color: #fff;">
+                                    <tr>
+                                        <th cope="col"></th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Num of Packages</th>
+                                        <th scope="col">State</th>
+                                        <th scope="col">Date register</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr scope="row" *ngFor="let contribution of responseContributions">
+                                        <td>
+                                            <input class="form-check-input"  type="radio"
+                                                name="optionSelected" id="optionSelected" 
+                                                (change)="handleOptionContribution(contribution.id);
+                                                handleOptionProduct(contribution.description); 
+                                                handleOptionQuantity(contribution.numOfPackage);">
+                                        </td>
+                                        <td>{{contribution.id}}</td>
+                                        <td>{{contribution.description}}</td>
+                                        <td style="text-align: center;">{{contribution.numOfPackage}}</td>
+                                        <td>{{contribution.state.type}}</td>
+                                        <td>{{ contribution.date.substring(0,10) }}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <form #onAddStock="ngForm" (ngSubmit)="create(onAddStock.value);" id="">
+                            <div class="form-group">
+                                <label for="dateExpiraton">Date Register:</label>
+                                <input type="text" [(ngModel)]="currentDate" readonly="readonly" name="dateExpiraton"
+                                    class="form-control" id="dateExpiraton" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name">Contribution:</label>
+                                <input type="text" [(ngModel)]="idContribution" name="contribution" class="form-control" id="contribution"
+                                    readonly="readonly" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Product:</label>
+                                <select class="form-select" [ngModel]="typeProduct" name="product" id="product"  readonly="readonly" required>
+                                    <option [value]="0" >..Select..</option>
+                                    <option [value]="product.id" *ngFor="let product of responseProducts" >{{ product.name +' - '+product.brand  }}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name">Quantity:</label>
+                                <input type="text" [(ngModel)]="quantity" name="quantity" class="form-control" id="quantity" required>
+                            </div>
+
+                            <br>
+                            <div class="modal-footer">
+                                <button type="button" id="add-vault-form" name="add-vault-form"
+                                    class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" [disabled]="onAddStock.invalid"
+                                    class="btn btn-success">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

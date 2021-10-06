@@ -24,6 +24,8 @@ export const operationVault = {
     findAll : endpointFoodBank.apiUrlVault +'/vault/findAll/',
     findDistrict : endpointFoodBank.apiUrlVault + '/vault/findDistrict/',
     findByContact : endpointFoodBank.apiUrlVault + '/vault/findContact/name/',
+    findContribution : endpointFoodBank.apiUrlVault + '/vault/findContribution/',
+    
     
     
    
