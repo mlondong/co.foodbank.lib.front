@@ -1,0 +1,111 @@
+<mat-toolbar>
+    <span>All Message</span>
+</mat-toolbar>
+
+<br>
+<!-- Div information about Message-->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table-secondary">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Total Message:</th>
+                        <td style="font-weight: bold; color: green;">{{responseMessage.length}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th class="table-secondary">Current Date:</th>
+                        <td style="font-weight: bold; color: black;">{{ currentDate}}</td>
+                    </tr>
+
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" (click)="listAll();">List
+                                All</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalFindMessage">Search by Id</button>
+
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <br>
+
+        <!-- Div TABLE TO SHOW  Type Products -->
+        <div class="table-responsive-md" style="overflow-y: auto; height:550px; width: 1600px;">
+            <table class="table table-dark table-sm table-hover">
+                <thead style="position: sticky; top: 0; z-index: 10;">
+                    <tr>
+                        <th scope="col">Date Register</th>
+                        <th scope="col">Id-Message</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">User email</th>
+                        <th scope="col">User name</th>
+                        <th scope="col">User phone</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr scope="row" *ngFor="let result of responseMessage">
+                        <td>{{result.dateMessage.substring(0,10)}}</td>
+                        <td>{{result.id}}</td>
+                        <td>{{result.subject}}</td>
+                        <td>{{result.description}}</td>
+                        <td>{{result.user.email}}</td>
+                        <td>{{result.user.name}}</td>
+                        <td>{{result.user.phones}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal search -->
+<div class="modal fade" id="modalFindMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0d6efd; color: #fff">
+                <h2 class="modal-title" id="exampleModalLongTitle">Message</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #findForm="ngForm" (ngSubmit)="onFind(findForm)">
+                    <div class="form-group">
+                        <label for="usid">Search Message by Id:</label>
+                        <input type="text" ngModel name="usid" class="form-control" id="usid" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="find-message-form" name="find-message-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button [disabled]="findForm.invalid" type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

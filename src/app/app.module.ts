@@ -44,6 +44,7 @@ import { CardContributionComponent } from './contribution/card-contribution/card
 import { CardProductComponent } from './product/card-product/card-product.component';
 import { CardStockComponent } from './stock/card-stock/card-stock.component';
 import { DetailStockComponent } from './stock/detail-stock/detail-stock.component';
+import { CardMessageComponent } from './message/card-message/card-message.component';
 
 
 
@@ -66,6 +67,7 @@ import { DetailStockComponent } from './stock/detail-stock/detail-stock.componen
     CardProductComponent,
     CardStockComponent,
     DetailStockComponent,
+    CardMessageComponent,
   ],
   imports: [
     BrowserModule,

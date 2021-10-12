@@ -12,6 +12,8 @@ import { CardContributionComponent } from './contribution/card-contribution/card
 import { CardProductComponent } from './product/card-product/card-product.component';
 import { CardStockComponent } from './stock/card-stock/card-stock.component';
 import { DetailStockComponent } from './stock/detail-stock/detail-stock.component';
+import { CardMessageComponent } from './message/card-message/card-message.component';
+
 
 
 
@@ -30,6 +32,8 @@ const routes: Routes = [
   { path: 'product', component: CardProductComponent},
   { path: 'stock', component: CardStockComponent},
   { path: 'detailStock/:id', component: DetailStockComponent},
+  { path: 'message', component: CardMessageComponent},
+  
   
   
   
