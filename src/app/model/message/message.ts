@@ -1,7 +1,8 @@
 import { UserDTO } from "../dtos/userDTO";
 
 export class Message {
-
+    
+    public id: string;    
     public dateMessage: Date;
     public subject: string;
     public description: string;
