@@ -1,0 +1,174 @@
+<mat-toolbar>
+    <span>Packaged Configuration</span>
+</mat-toolbar>
+
+<!-- Div packaged-->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        <th>Packaged Created:</th>
+                        <td style="font-weight: bold; color: black">{{responsePackaged.length}}</td>
+                    </tr>
+                    <tr>
+                        <th>Packaged Open :</th>
+                        <td style="font-weight: bold; color: red">{{inCalculateState('OpenPackaged')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Packaged Close :</th>
+                        <td style="font-weight: bold; color: green">{{inCalculateState('ClosePackaged')}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-success" style="margin:5px;" data-toggle="modal"
+                                data-target="#modalAddPackaged">Add</button>
+                            <button type="button" class="btn btn-primary" style="margin:5px;" (click)="listAll();">List
+                                All</button>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- List All users-->
+<div class="container">
+    <div class="row">
+        <div class="table-responsive-md" style="overflow-y: auto; height:350px; width: 1600px;">
+            <table class="table table-dark table-sm table-hover">
+                <thead style="position: sticky; top: 0; z-index: 10;">
+                    <tr>
+                        <th scope="col">Packaged ID</th>
+                        <th scope="col" style="text-align: center;">Items Number</th>
+                        <th scope="col" style="text-align: center;">Units in Packaged</th>
+                        <th scope="col">Date Packaging</th>
+                        <th scope="col" style="text-align: center;">State of Packaged</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr scope="row" *ngFor="let packaged of responsePackaged">
+                        <td>{{ packaged.id }}</td>
+                        <td style="text-align: center;">{{ packaged.item.length }}</td>
+                        <td style="text-align: center;">{{ packaged.units }}</td>
+                        <td>{{ packaged.datePackage.substring(0,10)}} </td>
+                        <td style="color: red; text-align: center;" *ngIf="packaged.state.state==='OpenPackaged'">Open
+                        </td>
+                        <td *ngIf="packaged.state.state==='ClosePackaged'">Close</td>
+
+                        <td>
+                            <button data-toggle="modal" data-target="#exampleModalUpdate" type="button"
+                                class="btn btn-outline-success btn-sm"
+                                [routerLink]="['/detailPackaged', packaged.id]">View
+                            Details</button>
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br>
+
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead style="position: sticky; top: 0; z-index: 1;">
+                <tr>
+                    <th>Created Today ( {{currentDate}} )</th>
+                    <td style="font-weight: bold; color: black">{{calculatePackageByDate()}}</td>
+                </tr>
+                <tr>
+                    <th>Created Yesterday ( {{passDate}} )</th>
+                    <td style="font-weight: bold; color: red">{{calculatePackageByDateYesterday()}}</td>
+                </tr>
+
+            </thead>
+        </table>
+
+        <br>
+        <table class="table">
+            <thead style="position: sticky; top: 0; z-index: 1;">
+                <tr>
+                    <th>
+                        <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                            data-target="#modalFindPackaged" (click)="changeForm(1);">Find By Id</button>
+                        <button type="button" class="btn btn-primary" style="margin:5px;" data-toggle="modal"
+                            data-target="#modalFindPackaged" (click)="changeForm(2);">Find By Date</button>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+</div>
+
+<!-- Modal search -->
+<div class="modal fade" id="modalFindPackaged" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0d6efd; color: #fff">
+                <h2 class="modal-title" id="exampleModalLongTitle">Product</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #findForm="ngForm" (ngSubmit)="onFind(findForm)">
+                    <div class="form-group">
+                        <label for="usid">Search: {{labelForm}}</label>
+                        <input type="text" ngModel name="usid" class="form-control" id="usid" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" name="find-message-form" id="find-message-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button [disabled]="findForm.invalid" type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal add user Vault -->
+<div class="modal dialog" id="modalAddPackaged" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#198754; color: #fff">
+                <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Add Vault</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #onAddPackagedForm="ngForm" (ngSubmit)="addObjPackaged(onAddPackagedForm.value);" id="">
+                    <div class="form-group">
+                        <label for="datePackage">Date of Register:</label>
+                        <input type="text" [(ngModel)]="currentDate" name="datePackage" class="form-control"
+                            id="datePackage" required readonly=readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="units">Units in Packaged:</label>
+                        <input type="text" ngModel name="units" class="form-control" id="units" required>
+                    </div>
+                    <div class="modal-footer">
+                        <!--  [disabled]="onAddProviderForm.invalid"-->
+                        <button type="button" id="add-pack-form" name="add-pack-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" [disabled]="onAddPackagedForm.invalid"
+                            class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
