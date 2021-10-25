@@ -52,7 +52,7 @@ export class CadrPackagedComponent implements OnInit {
 
   //Method to calculate close packaged
   public inCalculateState(option: any): number {
-    let result: any[] = this.responsePackaged.filter(d => d.state.state === option);
+    let result: any[] = this.responseMirrorPackaged.filter(d => d.state.state === option);
     return result.length;
   }
 
@@ -93,7 +93,7 @@ export class CadrPackagedComponent implements OnInit {
       (response: any[]) => {
         if (response != null) {
           this.responsePackaged = [];
-          this.responsePackaged.push(response);
+          this.responsePackaged= response;
           form.reset();
         }
       }, (error: HttpErrorResponse) => {
@@ -106,7 +106,6 @@ export class CadrPackagedComponent implements OnInit {
   public changeForm(val: any): void {
 
     this.option = val;
-
     switch (this.option) {
       case 1: this.setSearchById(); break;
       case 2: this.setSearchByCode(); break;
@@ -122,7 +121,7 @@ export class CadrPackagedComponent implements OnInit {
 
   public setSearchByCode() {
     this.isShowForm = true;
-    this.labelForm = "By CodeBar";
+    this.labelForm = "By Date Less than current introduced";
   }
 
   //Methos to add packaged
@@ -135,6 +134,7 @@ export class CadrPackagedComponent implements OnInit {
         if (response.length != 0) {
           document.getElementById("add-pack-form")?.click();
           this.responsePackaged.push(response);
+          form.reset();
         }
       }, (error: HttpErrorResponse) => {
         console.log(error.message);

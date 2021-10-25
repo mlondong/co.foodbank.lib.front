@@ -1,1 +1,198 @@
-<p>card-packaged-detail works!</p>
+<mat-toolbar>
+    <span>Edition Id # {{packagedResponse?.id}}</span>
+</mat-toolbar>
+
+
+<!-- Div Items Added -->
+<div class="container">
+    <div class="row">
+        <div class="modal-body">
+            <div style="background-color:#3fb577; color: #fff">
+                <h2>Edit Packaged</h2>
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="button" *ngIf="packagedResponse.state.state=='OpenPackaged'" class="btn btn-primary"
+                    style="margin:5px;" data-toggle="modal" data-target="#modalAddItem">Add Items</button>
+
+                <button type="button" *ngIf="packagedResponse.state.state=='OpenPackaged'" class="btn btn-secondary"
+                    style="margin:5px;" data-toggle="modal" data-target="#modalAddItem">Change State</button>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="state" style="margin:5px; font-weight: bold; color:black;">Items Detail in Packaged: </label>
+            </div>    
+            <!-- Div TABLE TO SHOW  Items -->
+            <div class="table-responsive-md" style="overflow-y: auto; height:150px; width: 1300px;"
+                *ngIf="packagedResponse.item.length != 0">
+                <table class="table table-dark table-sm table-hover">
+                    <thead style="position: sticky; top: 0; z-index: 10;">
+                        <tr>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Product Brand</th>
+                            <th scope="col">General Description</th>
+                            <th scope="col">Contribution State</th>
+                            <th scope="col">Type Detail / General</th>
+                            <th scope="col">Units register</th>
+                            <th scope="col" style="text-align: center;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr scope="row" *ngFor="let item of packagedResponse.item">
+                            <td>{{item.product.name}}</td>
+                            <td>{{item.product.brand}}</td>
+                            <td>{{item.product.description}}</td>
+                            <td>{{item.contribution.state.type}}</td>
+                           
+                            <td *ngIf="item.contribution.codeBar != null">{{'Codebar: '+item.contribution.codeBar +', Packages: '+
+                                item.contribution.numOfPackage}}</td>
+                            <td *ngIf="item.contribution.volume != null">{{'Volume(HxWxL): '+item.contribution.volume.high +' X '+
+                                item.contribution.volume.wide + ' X '+ item.contribution.volume.longitud}}</td>
+
+                            <td style="text-align: center;">{{item.units}}</td>
+                            <td>
+                                <button type="button" data-target="#modalEditContribution" data-toggle="modal"
+                                class="btn btn-outline-warning btn-sm">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--Detail information-->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="modal-body">
+                <form #updateForm="ngForm" (ngSubmit)="toUpdatePackaged(updateForm.value)">
+                    <div class="modal-footer">
+                    </div>
+                    <div class="form-group">
+                        <label for="product" style="margin:5px; font-weight: bold; color:#0d6efd;">Item Added :
+                        </label>
+                        <input type="text" style="background-color: #79abf5;" [(ngModel)]="product" name="product" class="form-control" id="items" required
+                            readonly>
+                    </div>
+                    <br>
+                    <div class="modal-footer">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="packaged" style="margin:5px; font-weight: bold; color:black;">Info Packaged:</label>
+                        <label for="packaged" style="margin:5px; font-weight: bold; color:black;">ID:</label>
+                        <input type="text" [(ngModel)]="packagedResponse.id" name="packaged" class="form-control"
+                            id="packaged" required readonly>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="date" style="margin:5px; font-weight: bold; color:black;">Date of Packaged:</label>
+                        <input type="text" [(ngModel)]="currentDate" name="date" class="form-control" id="date" required
+                            readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="total" style="margin:5px; font-weight: bold; color:black;">Total Items Packaged: </label>
+                        <input type="text" [(ngModel)]="packagedResponse.item.length" name="total" id="total" class="form-control"
+                            id="items" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="units" style="margin:5px; font-weight: bold; color:black;">Total Units Packaged: </label>
+                        <input type="text" [(ngModel)]="packagedResponse.units" name="units" class="form-control"
+                            id="units" required readonly>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="state" style="margin:5px; font-weight: bold; color:black;">State packaged: </label>
+                        <input type="text" *ngIf="packagedResponse.state.state=='ClosePackaged'"
+                            [(ngModel)]="packagedResponse.state.state" name="state" class="form-control" id="state"
+                            required readonly style="color: green;">
+
+                        <input type="text" *ngIf="packagedResponse.state.state=='OpenPackaged'"
+                            [(ngModel)]="packagedResponse.state.state" name="state" class="form-control" id="state"
+                            required readonly style="color: red;">
+                    </div>
+
+
+
+                    <br>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal add Stock  -->
+<div class="modal dialog" id="modalAddItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalUpdateTitle"
+    data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#198754; color: #fff">
+                <h1 class="modal-title" style="font-size: 30px;" id="exampleModalLongTitle">Search Product</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" name="find-message-form"
+                    id="find-message-form">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label for="items" style="margin:5px; font-weight: bold; color:black;">Search : </label>
+                            <input type="search" class="form-control" placeholder="Search Product..."
+                                aria-label="Search Product..." aria-describedby="basic-addon2"
+                                (search)="searchProdContributions($event)">
+                        </div>
+                        <br>
+                        <div class="table-responsive-md" style="overflow-y: auto; height:150px;"
+                            *ngIf="productResponse.length != 0">
+                            <table class="table table-hover">
+                                <thead
+                                    style="position: sticky; top: 0; z-index: 10; background-color:#198754; color: #fff;">
+                                    <tr>
+                                        <th cope="col"></th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Brand</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr scope="row" *ngFor="let product of productResponse">
+                                        <td>
+                                            <input class="form-check-input" type="radio" name="optionSelected"
+                                                id="optionSelected" (change)="handleOptionProduct(product.id, product.name, product.brand);">
+                                        </td>
+                                        <td>{{product.id}}</td>
+                                        <td>Type</td>
+                                        <td>{{product.name}}</td>
+                                        <td>{{product.description}}</td>
+                                        <td>{{ product.brand }}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
